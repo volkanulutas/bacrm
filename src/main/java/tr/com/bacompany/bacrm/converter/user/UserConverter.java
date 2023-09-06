@@ -17,7 +17,7 @@ public class UserConverter {
         target.setSurname(source.getSurname());
         target.setEnabled(source.isEnabled());
         target.setProfilePicture(source.getProfilePicture());
-        // source.getRoles().forEach(e -> target.addRole(RoleConverter.toEntity(e)));
+        source.getRoles().forEach(e -> target.addRole(RoleConverter.toEntity(e)));
         return target;
     }
 

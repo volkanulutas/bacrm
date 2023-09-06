@@ -25,7 +25,7 @@ public class ApplicationStartup {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void doSomethingAfterStartup() {
+    public void afterStartup() {
         RoleDto roleDto = new RoleDto();
         roleDto.setName("ADMIN");
         roleDto.setDescription("ADMIN DESC");

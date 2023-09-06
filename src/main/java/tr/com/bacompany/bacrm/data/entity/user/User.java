@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tr.com.bacompany.bacrm.data.entity.Timesheet;
+import tr.com.bacompany.bacrm.data.entity.Work;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -58,13 +59,13 @@ public class User {
     @Column
     private String profilePicture;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
     @JoinTable(name = "USERS_ROLES", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
     @JoinTable(name = "USERS_WORKS", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "WORK_ID")})
-    private Set<Role> works = new HashSet<>();
+    private Set<Work> works = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private Set<Timesheet> timesheets = new HashSet<>();

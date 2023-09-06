@@ -1,5 +1,6 @@
 package tr.com.bacompany.bacrm.controller;
 
+import io.swagger.annotations.ApiOperation;
 import tr.com.bacompany.bacrm.data.dto.user.UserDto;
 import tr.com.bacompany.bacrm.service.UserService;
 import io.swagger.annotations.Api;
@@ -26,12 +27,14 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {this.userService = userService;}
 
+    @ApiOperation(value = "Get all users.")
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<UserDto> listUser() {
         return userService.findAll();
     }
 
+    @ApiOperation(value = "Get user by id.")
     //@Secured("ROLE_USER")
     @PreAuthorize("hasRole('USER')")
     ////@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
@@ -40,6 +43,7 @@ public class UserController {
         return userService.get(id);
     }
 
+    @ApiOperation(value = "Signup.")
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public UserDto saveUser(@RequestBody UserDto user) {
         return userService.save(user);

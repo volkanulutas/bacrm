@@ -1,5 +1,7 @@
 package tr.com.bacompany.bacrm.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/timesheet")
+@Api(tags = "Timesheets")
 public class TimesheetController {
     private final TimesheetService timesheetService;
 
@@ -26,6 +29,7 @@ public class TimesheetController {
         this.timesheetService = timesheetService;
     }
 
+    @ApiOperation(value = "Add timesheet.")
     @PostMapping(value = "/")
     public ResponseEntity<TimesheetDto> addTimesheet(TimesheetDto timesheetDto) {
         try {
@@ -35,6 +39,7 @@ public class TimesheetController {
         }
     }
 
+    @ApiOperation(value = "Update timesheet.")
     @PatchMapping(value = "/")
     public ResponseEntity<TimesheetDto> update(TimesheetDto timesheetDto) {
         try {
@@ -46,8 +51,9 @@ public class TimesheetController {
         }
     }
 
+    @ApiOperation(value = "Get timesheet by id.")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TimesheetDto> getWork(@PathVariable("id") Long id) {
+    public ResponseEntity<TimesheetDto> get(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(timesheetService.getBy(id));
         } catch (ResourceNotFoundException ex) {
@@ -57,6 +63,7 @@ public class TimesheetController {
         }
     }
 
+    @ApiOperation(value = "Get all timesheet.")
     @GetMapping(value = "/")
     public ResponseEntity<List<TimesheetDto>> getAll() {
         try {

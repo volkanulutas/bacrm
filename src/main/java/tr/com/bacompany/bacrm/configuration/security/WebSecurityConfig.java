@@ -21,6 +21,22 @@ import javax.annotation.Resource;
 //@EnableGlobalMethodSecurity(securedEnabled = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
     @Resource(name = "userService")
     private UserDetailsService userDetailsService;
 
@@ -49,11 +65,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable().authorizeRequests().antMatchers("/token/*", "/signup", "/work/**", "/timesheet/**", "/h2-console/**","/console/**").permitAll().anyRequest().authenticated().and()
+        http.cors().and().csrf().disable().authorizeRequests().antMatchers(AUTH_WHITELIST).
+                        permitAll().antMatchers("/token/*", "/signup", "/work/**", "/timesheet/**", "/h2-console/**","/console/**").permitAll().anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         http.headers().frameOptions().disable();
+
+
     }
 }

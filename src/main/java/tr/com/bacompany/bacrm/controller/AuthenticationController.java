@@ -1,5 +1,6 @@
 package tr.com.bacompany.bacrm.controller;
 
+import io.swagger.annotations.Api;
 import tr.com.bacompany.bacrm.configuration.security.AuthToken;
 import tr.com.bacompany.bacrm.configuration.security.TokenProvider;
 import tr.com.bacompany.bacrm.data.dto.user.LoginUserDto;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/token")
+@Api(tags = "Authentication")
 public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;

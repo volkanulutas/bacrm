@@ -1,5 +1,7 @@
 package tr.com.bacompany.bacrm.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +21,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/work")
+@Api(tags = "Works")
 public class WorkController {
     private final WorkService workService;
 
@@ -27,8 +30,9 @@ public class WorkController {
         this.workService = workService;
     }
 
+    @ApiOperation(value = "Add worksheet.")
     @PostMapping(value = "/")
-    public ResponseEntity<WorkDto> addWork(@RequestBody WorkDto work) {
+    public ResponseEntity<WorkDto> add(@RequestBody WorkDto work) {
         try {
             return ResponseEntity.ok(workService.add(work));
         } catch (Exception ex) {
@@ -36,6 +40,7 @@ public class WorkController {
         }
     }
 
+    @ApiOperation(value = "Update worksheet.")
     @PatchMapping(value = "/")
     public ResponseEntity<WorkDto> update(@RequestBody WorkDto work) {
         try {
@@ -47,8 +52,9 @@ public class WorkController {
         }
     }
 
+    @ApiOperation(value = "Get worksheet by id.")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<WorkDto> getWork(@PathVariable("id") Long id) {
+    public ResponseEntity<WorkDto> get(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(workService.getBy(id));
         } catch (ResourceNotFoundException ex) {
@@ -58,6 +64,7 @@ public class WorkController {
         }
     }
 
+    @ApiOperation(value = "Get all worksheets.")
     @GetMapping(value = "/")
     public ResponseEntity<List<WorkDto>> getAll() {
         try {
