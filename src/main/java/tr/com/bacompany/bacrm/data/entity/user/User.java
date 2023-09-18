@@ -6,10 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tr.com.bacompany.bacrm.data.entity.Timesheet;
+import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 import tr.com.bacompany.bacrm.data.entity.Work;
+import tr.com.bacompany.bacrm.data.entity.leave.Leave;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -66,9 +66,15 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
     @JoinTable(name = "USERS_WORKS", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "WORK_ID")})
     private Set<Work> works = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
+    @JoinTable(name = "USERS_MANAGERS", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "WORK_ID")})
+    private Set<User> managers = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private Set<Timesheet> timesheets = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Leave> leaves = new HashSet<>();
 
     public void addTimesheet(Timesheet timesheet) {
         this.getTimesheets().add(timesheet);

@@ -1,23 +1,20 @@
-package tr.com.bacompany.bacrm.data.entity;
+package tr.com.bacompany.bacrm.data.entity.timesheet;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.jca.work.WorkManagerTaskExecutor;
 import tr.com.bacompany.bacrm.data.entity.user.User;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,27 +35,21 @@ public class Timesheet {
     private Long id;
 
     @Column
-    private long date;
+    private long weekStartDate;
 
     @Column
-    private double amountMin;
-
-    @Column
-    private boolean isSubmitted;
-
-    @Column
-    private boolean isSaved;
-
-    @Column
-    private boolean isApproved;
-
-    @Column boolean isRejected;
+    @Enumerated(EnumType.STRING)
+    private EnumTimesheetStatus status;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name="work_id", nullable=false)
-    private Work work;
+    @OneToMany(mappedBy = "timesheet")
+    private Set<TimesheetItem> timesheetItems = new HashSet<>();
+
+    public void addTimesheetItem(TimesheetItem timesheetItem) {
+        timesheetItem.setTimesheet(this);
+        timesheetItems.add(timesheetItem);
+    }
 }

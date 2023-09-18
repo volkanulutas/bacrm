@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tr.com.bacompany.bacrm.data.dto.TimesheetDto;
+import tr.com.bacompany.bacrm.data.dto.timesheet.TimesheetDto;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.service.TimesheetService;
 
@@ -29,11 +29,42 @@ public class TimesheetController {
         this.timesheetService = timesheetService;
     }
 
-    @ApiOperation(value = "Add timesheet.")
-    @PostMapping(value = "/")
-    public ResponseEntity<TimesheetDto> addTimesheet(TimesheetDto timesheetDto) {
+    @ApiOperation(value = "Save timesheets.")
+    @PostMapping(value = "/save")
+    public ResponseEntity<List<TimesheetDto>> saveTimesheet(List<TimesheetDto> timesheetDto) {
         try {
-            return ResponseEntity.ok(timesheetService.add(timesheetDto));
+            return ResponseEntity.ok(timesheetService.saveTimesheet(timesheetDto));
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @ApiOperation(value = "Approve timesheet by user.")
+    @PostMapping(value = "/approve-by-user")
+    public ResponseEntity<List<TimesheetDto>> approveTimesheetByUser(List<TimesheetDto> timesheetDto) {
+        try {
+            return ResponseEntity.ok(timesheetService.approveTimesheetByUser(timesheetDto));
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @ApiOperation(value = "Approve timesheet by manager.")
+    @PostMapping(value = "/approve-by-manager")
+    public ResponseEntity<List<TimesheetDto>> approveTimesheetByManager(List<TimesheetDto> timesheetDto) {
+        try {
+            return ResponseEntity.ok(timesheetService.approveTimesheetByManager(timesheetDto));
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
+    @ApiOperation(value = "Reject timesheet by manager.")
+    @PostMapping(value = "/reject-by-manager")
+    public ResponseEntity<List<TimesheetDto>> rejectTimesheetByManager(List<TimesheetDto> timesheetDto) {
+        try {
+            return ResponseEntity.ok(timesheetService.rejectTimesheetByManager(timesheetDto));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
@@ -41,9 +72,9 @@ public class TimesheetController {
 
     @ApiOperation(value = "Update timesheet.")
     @PatchMapping(value = "/")
-    public ResponseEntity<TimesheetDto> update(TimesheetDto timesheetDto) {
+    public ResponseEntity<List<TimesheetDto>> update(List<TimesheetDto> timesheetDtoList) {
         try {
-            return ResponseEntity.ok(timesheetService.update(timesheetDto));
+            return ResponseEntity.ok(timesheetService.update(timesheetDtoList));
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
         } catch (Exception ex) {
