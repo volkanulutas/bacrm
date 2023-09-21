@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tr.com.bacompany.bacrm.converter.LeaveConverter;
 import tr.com.bacompany.bacrm.data.dto.leave.LeaveDto;
+import tr.com.bacompany.bacrm.data.entity.leave.Leave;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.service.LeaveService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -31,7 +34,8 @@ public class LeaveController {
     @PostMapping(value = "/")
     public ResponseEntity<LeaveDto> addLeave(LeaveDto leaveDto) {
         try {
-            return ResponseEntity.ok(leaveService.add(leaveDto));
+            Leave leave = LeaveConverter.toEntity(leaveDto);
+            return ResponseEntity.ok(LeaveConverter.toDto(leaveService.add(leave)));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
@@ -41,7 +45,8 @@ public class LeaveController {
     @GetMapping(value = "/{userId}")
     public ResponseEntity<LeaveDto> getByUserId(@PathVariable("userId") Long userId) {
         try {
-            return ResponseEntity.ok(leaveService.getByUserId(userId));
+            Leave leave = leaveService.getByUserId(userId);
+            return ResponseEntity.ok(LeaveConverter.toDto(leave));
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
         } catch (Exception ex) {
@@ -53,7 +58,9 @@ public class LeaveController {
     @GetMapping(value = "/")
     public ResponseEntity<List<LeaveDto>> getAll() {
         try {
-            return ResponseEntity.ok(leaveService.getAll());
+            List<Leave> leaveList = leaveService.getAll();
+            List<LeaveDto> leaveDtoList = leaveList.stream().map(LeaveConverter::toDto).collect(Collectors.toList());
+            return ResponseEntity.ok(leaveDtoList);
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }

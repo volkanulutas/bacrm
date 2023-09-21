@@ -3,8 +3,6 @@ package tr.com.bacompany.bacrm.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tr.com.bacompany.bacrm.converter.TimesheetConverter;
-import tr.com.bacompany.bacrm.data.dto.timesheet.TimesheetDto;
 import tr.com.bacompany.bacrm.data.entity.timesheet.EnumTimesheetStatus;
 import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
@@ -12,10 +10,8 @@ import tr.com.bacompany.bacrm.repository.TimesheetRepository;
 import tr.com.bacompany.bacrm.service.TimesheetService;
 
 import javax.transaction.Transactional;
-import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "timesheetService")
@@ -95,8 +91,8 @@ public class TimesheetServiceImpl implements TimesheetService {
         return true;
     }
 
-    @Transactional
-    private Timesheet save(Timesheet timesheet) {
+
+    public Timesheet save(Timesheet timesheet) {
         return timesheetRepository.save(timesheet);
     }
 }

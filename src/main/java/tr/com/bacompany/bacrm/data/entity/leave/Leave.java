@@ -25,7 +25,6 @@ import javax.persistence.Table;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "LEAVE")
 public class Leave {
@@ -46,7 +45,7 @@ public class Leave {
 
     private long endDate;
 
-    private long definition;
+    private String definition;
 
     private boolean deleted;
 

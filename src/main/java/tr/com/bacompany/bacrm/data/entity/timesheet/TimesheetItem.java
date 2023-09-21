@@ -21,7 +21,6 @@ import javax.persistence.Table;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "TIMESHEET_ITEM")
 public class TimesheetItem {

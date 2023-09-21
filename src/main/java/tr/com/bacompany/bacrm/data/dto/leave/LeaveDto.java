@@ -21,7 +21,7 @@ public class LeaveDto implements Serializable {
 
     private long endDate;
 
-    private long definition;
+    private String definition;
 
     private boolean deleted;
 

@@ -1,12 +1,6 @@
 package tr.com.bacompany.bacrm.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import tr.com.bacompany.bacrm.converter.user.UserConverter;
-import tr.com.bacompany.bacrm.data.dto.user.UserDto;
-import tr.com.bacompany.bacrm.data.entity.user.User;
-import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
-import tr.com.bacompany.bacrm.repository.UserRepository;
-import tr.com.bacompany.bacrm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +8,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import tr.com.bacompany.bacrm.data.entity.user.User;
+import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
+import tr.com.bacompany.bacrm.repository.UserRepository;
+import tr.com.bacompany.bacrm.service.UserService;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "userService")

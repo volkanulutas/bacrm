@@ -1,16 +1,16 @@
 package tr.com.bacompany.bacrm.service;
 
-import tr.com.bacompany.bacrm.data.dto.leave.LeaveDto;
+import tr.com.bacompany.bacrm.data.entity.leave.Leave;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 
 import java.util.List;
 
 public interface LeaveService {
-    LeaveDto add(LeaveDto leaveDto);
+    Leave add(Leave leave);
 
-    List<LeaveDto> getAll();
+    List<Leave> getAll();
 
-    LeaveDto getByUserId(Long userId) throws ResourceNotFoundException;
+    Leave getByUserId(Long userId) throws ResourceNotFoundException;
 
     boolean delete(Long id) throws ResourceNotFoundException;
 }

@@ -4,24 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import tr.com.bacompany.bacrm.data.dto.WorkDto;
-import tr.com.bacompany.bacrm.data.dto.timesheet.TimesheetDto;
-import tr.com.bacompany.bacrm.data.dto.timesheet.TimesheetItemDto;
-import tr.com.bacompany.bacrm.data.dto.user.RoleDto;
-import tr.com.bacompany.bacrm.data.dto.user.UserDto;
 import tr.com.bacompany.bacrm.data.entity.Work;
+import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveStatus;
+import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveType;
+import tr.com.bacompany.bacrm.data.entity.leave.Leave;
+import tr.com.bacompany.bacrm.data.entity.leave.LeaveApproveStatus;
 import tr.com.bacompany.bacrm.data.entity.timesheet.EnumTimesheetStatus;
 import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 import tr.com.bacompany.bacrm.data.entity.timesheet.TimesheetItem;
 import tr.com.bacompany.bacrm.data.entity.user.Role;
 import tr.com.bacompany.bacrm.data.entity.user.User;
-import tr.com.bacompany.bacrm.repository.UserRepository;
+import tr.com.bacompany.bacrm.service.LeaveService;
 import tr.com.bacompany.bacrm.service.RoleService;
 import tr.com.bacompany.bacrm.service.TimesheetService;
 import tr.com.bacompany.bacrm.service.UserService;
 import tr.com.bacompany.bacrm.service.WorkService;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -34,16 +32,16 @@ public class ApplicationStartup {
 
     private final TimesheetService timesheetService;
 
-    private final UserRepository userRepository;
+    private final LeaveService leaveService;
 
     @Autowired
     public ApplicationStartup(UserService userService, RoleService roleService, WorkService workService, TimesheetService timesheetService,
-                              UserRepository userRepository) {
+                              LeaveService leaveService) {
         this.userService = userService;
         this.roleService = roleService;
         this.workService = workService;
         this.timesheetService = timesheetService;
-        this.userRepository = userRepository;
+        this.leaveService = leaveService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -79,24 +77,25 @@ public class ApplicationStartup {
         // ----
         Timesheet timesheet = new Timesheet();
         timesheet.setStatus(EnumTimesheetStatus.SUBMITTED);
-
         timesheet.setWeekStartDate(1);
-
-        try {
-            timesheet = timesheetService.saveTimesheet(timesheet);
-
-        }catch (Exception e){
-            System.err.println(e);
-        }
-
-        try {
-            timesheet.addTimesheetItem(new TimesheetItem(null, 1L, 9, timesheet, work));
-            timesheet.setUser(user);
-            timesheetService.saveTimesheet(timesheet);
-        }catch (Exception e){
-            System.err.println(e);
-        }
-
+        timesheet.setUser(user);
+        timesheet = timesheetService.saveTimesheet(timesheet);
+        timesheet.addTimesheetItem(new TimesheetItem(null, 1L, 9, timesheet, work));
+        timesheetService.saveTimesheet(timesheet);
         System.err.println("fin");
+        // ----
+        Leave leave = new Leave();
+        leave.setType(EnumLeaveType.FREE_LEAVE);
+        leave.setStatus(EnumLeaveStatus.WAITING);
+        leave.setUser(user);
+        leave.setStartDate(1);
+        leave.setEndDate(2);
+        leave.setDefinition("açıklama");
+        leave = leaveService.add(leave);
+        LeaveApproveStatus leaveApproveStatus = new LeaveApproveStatus();
+        leaveApproveStatus.setStatus(EnumLeaveStatus.APPROVED);
+        leaveApproveStatus.setLeave(leave);
+        leave.setLeaveApproveStatus(leaveApproveStatus);
+        leave = leaveService.add(leave);
     }
 }
