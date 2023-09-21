@@ -1,7 +1,5 @@
 package tr.com.bacompany.bacrm.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,10 +23,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/work")
-@Api(tags = "Works")
+@CrossOrigin(origins = "http://localhost:3000")
 public class WorkController {
     private final WorkService workService;
 
@@ -40,7 +38,6 @@ public class WorkController {
         this.userService = userService;
     }
 
-    @ApiOperation(value = "Add worksheet.")
     @PostMapping(value = "/")
     public ResponseEntity<WorkDto> add(@RequestBody WorkDto workDto) {
         try {
@@ -59,7 +56,6 @@ public class WorkController {
         }
     }
 
-    @ApiOperation(value = "Update worksheet.")
     @PatchMapping(value = "/")
     public ResponseEntity<WorkDto> update(@RequestBody WorkDto workDto) {
         try {
@@ -80,7 +76,6 @@ public class WorkController {
         }
     }
 
-    @ApiOperation(value = "Get worksheet by id.")
     @GetMapping(value = "/{id}")
     public ResponseEntity<WorkDto> get(@PathVariable("id") Long id) {
         try {
@@ -93,7 +88,6 @@ public class WorkController {
         }
     }
 
-    @ApiOperation(value = "Get all worksheets.")
     @GetMapping(value = "/")
     public ResponseEntity<List<WorkDto>> getAll() {
         try {

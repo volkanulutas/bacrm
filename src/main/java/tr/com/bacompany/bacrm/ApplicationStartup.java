@@ -1,5 +1,6 @@
 package tr.com.bacompany.bacrm;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -22,6 +23,7 @@ import tr.com.bacompany.bacrm.service.WorkService;
 
 import java.util.Set;
 
+@Slf4j
 @Component
 public class ApplicationStartup {
     private final UserService userService;
@@ -51,18 +53,24 @@ public class ApplicationStartup {
         role.setDescription("ADMIN DESC");
         role.setCreationDate(1L);
         role = roleService.add(role);
+        Role role2 = new Role();
+        role2.setName("USER");
+        role2.setDescription("USER DESC");
+        role2.setCreationDate(1L);
+        role2 = roleService.add(role2);
         // ---
         User user = new User();
         user.setEmail("volkan.ulutas@bacompany.com.tr");
         user.setName("Volkan");
         user.setSurname("Ulutaş");
         user.setEnabled(true);
-        user.setPassword("123");
+        user.setPassword("123456");
         user.setProfilePicture("profile pic");
+        user.setRoles(Set.of(role, role2));
         user = userService.save(user);
+
         //user.setRoles(Set.of(role));
         // user = userService.save(user);
-        System.err.println(user.toString());
         // ----
         Work work = new Work();
         work.setEndDate(2L);
@@ -82,7 +90,6 @@ public class ApplicationStartup {
         timesheet = timesheetService.saveTimesheet(timesheet);
         timesheet.addTimesheetItem(new TimesheetItem(null, 1L, 9, timesheet, work));
         timesheetService.saveTimesheet(timesheet);
-        System.err.println("fin");
         // ----
         Leave leave = new Leave();
         leave.setType(EnumLeaveType.FREE_LEAVE);
@@ -97,5 +104,7 @@ public class ApplicationStartup {
         leaveApproveStatus.setLeave(leave);
         leave.setLeaveApproveStatus(leaveApproveStatus);
         leave = leaveService.add(leave);
+        log.info("Data initialized.");
+
     }
 }

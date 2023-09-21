@@ -16,5 +16,4 @@ public interface WorkService {
     Work update(Work work);
 
     boolean delete(Work work);
-
 }

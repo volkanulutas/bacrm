@@ -1,27 +1,25 @@
 package tr.com.bacompany.bacrm.data.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import tr.com.bacompany.bacrm.data.entity.Work;
 import tr.com.bacompany.bacrm.data.entity.leave.Leave;
 import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -79,5 +77,10 @@ public class User {
 
     public void addRole(Role role) {
         this.getRoles().add(role);
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 }

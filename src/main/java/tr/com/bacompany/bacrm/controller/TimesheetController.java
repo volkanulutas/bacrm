@@ -1,7 +1,5 @@
 package tr.com.bacompany.bacrm.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/timesheet")
-@Api(tags = "Timesheets")
 public class TimesheetController {
     private final TimesheetService timesheetService;
 
@@ -32,7 +29,6 @@ public class TimesheetController {
         this.timesheetService = timesheetService;
     }
 
-    @ApiOperation(value = "Save timesheets.")
     @PostMapping(value = "/save")
     public ResponseEntity<TimesheetDto> saveTimesheet(TimesheetDto timesheetDto) {
         try {
@@ -44,7 +40,6 @@ public class TimesheetController {
         }
     }
 
-    @ApiOperation(value = "Approve timesheet by user.")
     @PostMapping(value = "/approve-by-user")
     public ResponseEntity<TimesheetDto> approveTimesheetByUser(TimesheetDto timesheetDto) {
         try {
@@ -56,7 +51,6 @@ public class TimesheetController {
         }
     }
 
-    @ApiOperation(value = "Approve timesheet by manager.")
     @PostMapping(value = "/approve-by-manager")
     public ResponseEntity<TimesheetDto> approveTimesheetByManager(TimesheetDto timesheetDto) {
         try {
@@ -68,7 +62,6 @@ public class TimesheetController {
         }
     }
 
-    @ApiOperation(value = "Reject timesheet by manager.")
     @PostMapping(value = "/reject-by-manager")
     public ResponseEntity<TimesheetDto> rejectTimesheetByManager(TimesheetDto timesheetDto) {
         try {
@@ -80,7 +73,6 @@ public class TimesheetController {
         }
     }
 
-    @ApiOperation(value = "Update timesheet.")
     @PatchMapping(value = "/")
     public ResponseEntity<TimesheetDto> update(TimesheetDto timesheetDto) {
         try {
@@ -94,7 +86,6 @@ public class TimesheetController {
         }
     }
 
-    @ApiOperation(value = "Get timesheet by id.")
     @GetMapping(value = "/{id}")
     public ResponseEntity<TimesheetDto> get(@PathVariable("id") Long id) {
         try {
@@ -107,7 +98,6 @@ public class TimesheetController {
         }
     }
 
-    @ApiOperation(value = "Get timesheet by id.")
     @GetMapping(value = "/{userId}")
     public ResponseEntity<TimesheetDto> getByUserId(@PathVariable("userId") Long userId, @PathVariable("weekStartDate") Long weekStartDate) {
         try {
@@ -120,7 +110,6 @@ public class TimesheetController {
         }
     }
 
-    @ApiOperation(value = "Get all timesheet.")
     @GetMapping(value = "/")
     public ResponseEntity<List<TimesheetDto>> getAll() {
         try {

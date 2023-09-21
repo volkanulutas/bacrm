@@ -9,7 +9,6 @@ import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.repository.TimesheetRepository;
 import tr.com.bacompany.bacrm.service.TimesheetService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,7 +89,6 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
         return true;
     }
-
 
     public Timesheet save(Timesheet timesheet) {
         return timesheetRepository.save(timesheet);

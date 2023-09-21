@@ -1,7 +1,5 @@
 package tr.com.bacompany.bacrm.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,14 +21,12 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/leave")
-@Api(tags = "Leaves")
 public class LeaveController {
     private final LeaveService leaveService;
 
     @Autowired
     public LeaveController(LeaveService leaveService) {this.leaveService = leaveService;}
 
-    @ApiOperation(value = "Add a leave.")
     @PostMapping(value = "/")
     public ResponseEntity<LeaveDto> addLeave(LeaveDto leaveDto) {
         try {
@@ -41,7 +37,6 @@ public class LeaveController {
         }
     }
 
-    @ApiOperation(value = "Get leave by userId.")
     @GetMapping(value = "/{userId}")
     public ResponseEntity<LeaveDto> getByUserId(@PathVariable("userId") Long userId) {
         try {
@@ -54,7 +49,6 @@ public class LeaveController {
         }
     }
 
-    @ApiOperation(value = "Get all leaves.")
     @GetMapping(value = "/")
     public ResponseEntity<List<LeaveDto>> getAll() {
         try {
@@ -66,7 +60,6 @@ public class LeaveController {
         }
     }
 
-    @ApiOperation(value = "Delete leave by id.")
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         try {

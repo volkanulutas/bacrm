@@ -12,6 +12,7 @@ public class UserConverter {
         User target = new User();
         target.setId(source.getId());
         target.setEmail(source.getEmail());
+        target.setPassword(source.getPassword());
         target.setName(source.getName());
         target.setMiddleName(source.getMiddleName());
         target.setSurname(source.getSurname());
@@ -26,6 +27,7 @@ public class UserConverter {
         target.setId(source.getId());
         target.setEmail(source.getEmail());
         target.setName(source.getName());
+        target.setPassword(source.getPassword());
         target.setMiddleName(source.getMiddleName());
         target.setSurname(source.getSurname());
         target.setEnabled(source.isEnabled());
