@@ -5,12 +5,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import tr.com.bacompany.bacrm.data.entity.user.User;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,7 +48,7 @@ public class Timesheet {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "timesheet")
+    @OneToMany(mappedBy = "timesheet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<TimesheetItem> timesheetItems = new HashSet<>();
 
     public void addTimesheetItem(TimesheetItem timesheetItem) {

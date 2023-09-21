@@ -12,7 +12,7 @@ import tr.com.bacompany.bacrm.repository.TimesheetRepository;
 import tr.com.bacompany.bacrm.service.TimesheetService;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,64 +28,66 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     @Override
-    public List<TimesheetDto> saveTimesheet(List<TimesheetDto> timesheetDtoList) {
-        timesheetDtoList.forEach(e -> e.setStatus(EnumTimesheetStatus.SAVED));
-        return this.save(timesheetDtoList);
+    public Timesheet saveTimesheet(Timesheet timesheet) {
+        timesheet.setStatus(EnumTimesheetStatus.SAVED);
+        return this.save(timesheet);
     }
 
     @Override
-    public List<TimesheetDto> approveTimesheetByUser(List<TimesheetDto> timesheetDtoList) {
-        timesheetDtoList.forEach(e -> e.setStatus(EnumTimesheetStatus.APPROVED_BY_USER));
-        return this.save(timesheetDtoList);
+    public Timesheet approveTimesheetByUser(Timesheet timesheet) {
+        timesheet.setStatus(EnumTimesheetStatus.APPROVED_BY_USER);
+        return this.save(timesheet);
     }
 
     @Override
-    public List<TimesheetDto> approveTimesheetByManager(List<TimesheetDto> timesheetDtoList) {
-        timesheetDtoList.forEach(e -> e.setStatus(EnumTimesheetStatus.APPROVED_BY_MANAGER));
-        return this.save(timesheetDtoList);
+    public Timesheet approveTimesheetByManager(Timesheet timesheet) {
+        timesheet.setStatus(EnumTimesheetStatus.REJECTED);
+        return this.save(timesheet);
     }
 
     @Override
-    public List<TimesheetDto> rejectTimesheetByManager(List<TimesheetDto> timesheetDtoList) {
-        timesheetDtoList.forEach(e -> e.setStatus(EnumTimesheetStatus.REJECTED));
-        return this.save(timesheetDtoList);
+    public Timesheet rejectTimesheetByManager(Timesheet timesheet) {
+        timesheet.setStatus(EnumTimesheetStatus.REJECTED);
+        return this.save(timesheet);
     }
 
     @Override
-    public List<TimesheetDto> getAll() {
-        List<Timesheet> timesheets = timesheetRepository.findAll();
-        return timesheets.stream().map(TimesheetConverter::toDto).collect(Collectors.toList());
+    public List<Timesheet> getAll() {
+        return timesheetRepository.findAll();
     }
 
     @Override
-    public TimesheetDto getBy(Long timesheetId) throws ResourceNotFoundException {
+    public Timesheet getBy(Long timesheetId) throws ResourceNotFoundException {
         Optional<Timesheet> timesheetOpt = timesheetRepository.findById(timesheetId);
         if (!timesheetOpt.isPresent()) {
             throw new ResourceNotFoundException("Timesheet", "Timesheet");
         }
-        return TimesheetConverter.toDto(timesheetOpt.get());
+        return timesheetOpt.get();
     }
 
     @Override
-    public List<TimesheetDto> update(List<TimesheetDto> timesheetDtoList) throws ResourceNotFoundException {
-        List<TimesheetDto> resultTimesheetDtoList = new ArrayList<>();
-        for (TimesheetDto timesheetDto : timesheetDtoList) {
-            this.getBy(timesheetDto.getId());
-            Timesheet newTimesheet = TimesheetConverter.toEntity(timesheetDto);
-            TimesheetDto newTimesheetDto = TimesheetConverter.toDto(timesheetRepository.save(newTimesheet));
-            resultTimesheetDtoList.add(newTimesheetDto);
+    public Timesheet getByUserIdAndWeekStartDate(Long userId, Long weekStartDate) throws ResourceNotFoundException {
+        List<Timesheet> timesheetList = timesheetRepository.findByUserIdAndWeekStartDate(userId, weekStartDate);
+        if (timesheetList.isEmpty()) {
+            throw new ResourceNotFoundException("Timesheet", "Timesheet");
         }
-        return resultTimesheetDtoList;
+        return timesheetList.get(0);
     }
 
     @Override
-    public boolean delete(TimesheetDto timesheetDto) throws ResourceNotFoundException {
+    public Timesheet update(Timesheet timesheet) throws ResourceNotFoundException {
+        this.getBy(timesheet.getId());
+        return timesheetRepository.save(timesheet);
+    }
+
+    @Override
+    public boolean delete(Timesheet timesheet) throws ResourceNotFoundException {
         try {
-            Optional<Timesheet> optTimesheet = timesheetRepository.findById(timesheetDto.getId());
+            Optional<Timesheet> optTimesheet = timesheetRepository.findById(timesheet.getId());
             if (!optTimesheet.isPresent()) {
                 throw new ResourceNotFoundException("Timesheet is not found.", "Timesheet");
             }
-            Timesheet timesheet = optTimesheet.get();
+            timesheet = optTimesheet.get();
             timesheetRepository.delete(timesheet);
         } catch (Exception ex) {
             return false;
@@ -94,13 +96,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     @Transactional
-    private List<TimesheetDto> save(List<TimesheetDto> timesheetDtoList) {
-        List<TimesheetDto> resultTimesheetDtoList = new ArrayList<>();
-        for (TimesheetDto timesheetDto : timesheetDtoList) {
-            Timesheet timesheet = timesheetRepository.save(TimesheetConverter.toEntity(timesheetDto));
-            TimesheetDto savedTimesheet = TimesheetConverter.toDto(timesheet);
-            resultTimesheetDtoList.add(savedTimesheet);
-        }
-        return resultTimesheetDtoList;
+    private Timesheet save(Timesheet timesheet) {
+        return timesheetRepository.save(timesheet);
     }
 }

@@ -16,11 +16,6 @@ public class TimesheetConverter {
         target.setWeekStartDate(source.getWeekStartDate());
         target.setStatus(source.getStatus());
         target.setUser(UserConverter.toEntity(source.getUser()));
-        List<TimesheetItem> sourceTimesheetItems =
-                source.getTimesheetItems().stream().map(e -> TimesheetItemConverter.toEntity(e)).collect(Collectors.toList());
-        for (TimesheetItem sourceTimesheetItem : sourceTimesheetItems) {
-            target.addTimesheetItem(sourceTimesheetItem);
-        }
         return target;
     }
 
@@ -30,11 +25,6 @@ public class TimesheetConverter {
         target.setWeekStartDate(source.getWeekStartDate());
         target.setStatus(source.getStatus());
         target.setUser(UserConverter.toDto(source.getUser()));
-        List<TimesheetItemDto> sourceTimesheetItems =
-                source.getTimesheetItems().stream().map(e -> TimesheetItemConverter.toDto(e)).collect(Collectors.toList());
-        for (TimesheetItemDto sourceTimesheetItem : sourceTimesheetItems) {
-            target.addTimesheetItem(sourceTimesheetItem);
-        }
         return target;
     }
 }

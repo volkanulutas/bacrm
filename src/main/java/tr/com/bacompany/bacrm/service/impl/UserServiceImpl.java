@@ -35,15 +35,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserDto> findAll() {
-        return userRepository.findAll().stream().map(UserConverter::toDto).collect(Collectors.toList());
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     @Override
-    public UserDto get(Long id) throws ResourceNotFoundException {
+    public User get(Long id) throws ResourceNotFoundException {
         Optional<User> optUser = userRepository.findById(id);
         if (optUser.isPresent()) {
-            return UserConverter.toDto(optUser.get());
+            return optUser.get();
         }
         throw new ResourceNotFoundException("User", "User is not found with id: " + id);
     }
@@ -58,10 +58,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDto save(UserDto user) {
-        User entity = UserConverter.toEntity(user);
-        entity.setPassword(encoder.encode(user.getPassword()));
-        return UserConverter.toDto(userRepository.save(entity));
+    public User save(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     @Override

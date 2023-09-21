@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tr.com.bacompany.bacrm.converter.TimesheetConverter;
 import tr.com.bacompany.bacrm.data.dto.timesheet.TimesheetDto;
+import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.service.TimesheetService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -31,9 +34,11 @@ public class TimesheetController {
 
     @ApiOperation(value = "Save timesheets.")
     @PostMapping(value = "/save")
-    public ResponseEntity<List<TimesheetDto>> saveTimesheet(List<TimesheetDto> timesheetDto) {
+    public ResponseEntity<TimesheetDto> saveTimesheet(TimesheetDto timesheetDto) {
         try {
-            return ResponseEntity.ok(timesheetService.saveTimesheet(timesheetDto));
+            Timesheet timesheet = TimesheetConverter.toEntity(timesheetDto);
+            timesheet = timesheetService.saveTimesheet(timesheet);
+            return ResponseEntity.ok(TimesheetConverter.toDto(timesheet));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
@@ -41,9 +46,11 @@ public class TimesheetController {
 
     @ApiOperation(value = "Approve timesheet by user.")
     @PostMapping(value = "/approve-by-user")
-    public ResponseEntity<List<TimesheetDto>> approveTimesheetByUser(List<TimesheetDto> timesheetDto) {
+    public ResponseEntity<TimesheetDto> approveTimesheetByUser(TimesheetDto timesheetDto) {
         try {
-            return ResponseEntity.ok(timesheetService.approveTimesheetByUser(timesheetDto));
+            Timesheet timesheet = TimesheetConverter.toEntity(timesheetDto);
+            timesheet = timesheetService.approveTimesheetByUser(timesheet);
+            return ResponseEntity.ok(TimesheetConverter.toDto(timesheet));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
@@ -51,20 +58,23 @@ public class TimesheetController {
 
     @ApiOperation(value = "Approve timesheet by manager.")
     @PostMapping(value = "/approve-by-manager")
-    public ResponseEntity<List<TimesheetDto>> approveTimesheetByManager(List<TimesheetDto> timesheetDto) {
+    public ResponseEntity<TimesheetDto> approveTimesheetByManager(TimesheetDto timesheetDto) {
         try {
-            return ResponseEntity.ok(timesheetService.approveTimesheetByManager(timesheetDto));
+            Timesheet timesheet = TimesheetConverter.toEntity(timesheetDto);
+            timesheet = timesheetService.approveTimesheetByManager(timesheet);
+            return ResponseEntity.ok(TimesheetConverter.toDto(timesheet));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-
     @ApiOperation(value = "Reject timesheet by manager.")
     @PostMapping(value = "/reject-by-manager")
-    public ResponseEntity<List<TimesheetDto>> rejectTimesheetByManager(List<TimesheetDto> timesheetDto) {
+    public ResponseEntity<TimesheetDto> rejectTimesheetByManager(TimesheetDto timesheetDto) {
         try {
-            return ResponseEntity.ok(timesheetService.rejectTimesheetByManager(timesheetDto));
+            Timesheet timesheet = TimesheetConverter.toEntity(timesheetDto);
+            timesheet = timesheetService.rejectTimesheetByManager(timesheet);
+            return ResponseEntity.ok(TimesheetConverter.toDto(timesheet));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
@@ -72,9 +82,11 @@ public class TimesheetController {
 
     @ApiOperation(value = "Update timesheet.")
     @PatchMapping(value = "/")
-    public ResponseEntity<List<TimesheetDto>> update(List<TimesheetDto> timesheetDtoList) {
+    public ResponseEntity<TimesheetDto> update(TimesheetDto timesheetDto) {
         try {
-            return ResponseEntity.ok(timesheetService.update(timesheetDtoList));
+            Timesheet timesheet = TimesheetConverter.toEntity(timesheetDto);
+            timesheet = timesheetService.update(timesheet);
+            return ResponseEntity.ok(TimesheetConverter.toDto(timesheet));
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
         } catch (Exception ex) {
@@ -86,7 +98,21 @@ public class TimesheetController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<TimesheetDto> get(@PathVariable("id") Long id) {
         try {
-            return ResponseEntity.ok(timesheetService.getBy(id));
+            Timesheet timesheet = timesheetService.getBy(id);
+            return ResponseEntity.ok(TimesheetConverter.toDto(timesheet));
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @ApiOperation(value = "Get timesheet by id.")
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<TimesheetDto> getByUserId(@PathVariable("userId") Long userId, @PathVariable("weekStartDate") Long weekStartDate) {
+        try {
+            Timesheet timesheet = timesheetService.getByUserIdAndWeekStartDate(userId, weekStartDate);
+            return ResponseEntity.ok(TimesheetConverter.toDto(timesheet));
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
         } catch (Exception ex) {
@@ -98,7 +124,9 @@ public class TimesheetController {
     @GetMapping(value = "/")
     public ResponseEntity<List<TimesheetDto>> getAll() {
         try {
-            return ResponseEntity.ok(timesheetService.getAll());
+            List<Timesheet> timesheetList = timesheetService.getAll();
+            List<TimesheetDto> timesheetDtoList = timesheetList.stream().map(TimesheetConverter::toDto).collect(Collectors.toList());
+            return ResponseEntity.ok(timesheetDtoList);
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }

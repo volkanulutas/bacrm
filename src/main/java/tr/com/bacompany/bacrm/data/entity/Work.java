@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import tr.com.bacompany.bacrm.data.entity.user.User;
 
 import javax.persistence.CascadeType;
@@ -38,6 +39,8 @@ public class Work {
 
     @Column
     private String name;
+    @Column
+    private String definition;
 
     @Column
     private long startDate;
@@ -52,6 +55,10 @@ public class Work {
     @JoinTable(name = "WORKS_USERS", joinColumns = {@JoinColumn(name = "WORK_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ID")})
     private Set<User> users = new HashSet<>();
 
+    public void addUser(User user){
+        //user.addWork(this);
+        users.add(user);
+    }
     /*
     @OneToMany(mappedBy="work")
     private Set<Timesheet> timesheets;

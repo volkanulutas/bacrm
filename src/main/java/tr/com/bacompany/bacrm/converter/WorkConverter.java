@@ -14,11 +14,10 @@ public class WorkConverter {
         Work target = new Work();
         target.setId(source.getId());
         target.setName(source.getName());
+        target.setDefinition(source.getDefinition());
         target.setStartDate(source.getStartDate());
         target.setEndDate(source.getEndDate());
         target.setWorkloadHour(source.getWorkloadHour());
-        Set<User> users = source.getUsers().stream().map(UserConverter::toEntity).collect(Collectors.toSet());
-        target.setUsers(users);
         return target;
     }
 
@@ -26,11 +25,10 @@ public class WorkConverter {
         WorkDto target = new WorkDto();
         target.setId(source.getId());
         target.setName(source.getName());
+        target.setDefinition(source.getDefinition());
         target.setStartDate(source.getStartDate());
         target.setEndDate(source.getEndDate());
         target.setWorkloadHour(source.getWorkloadHour());
-        Set<UserDto> users = source.getUsers().stream().map(UserConverter::toDto).collect(Collectors.toSet());
-        target.setUsers(users);
         return target;
     }
 }

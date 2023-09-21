@@ -1,24 +1,26 @@
 package tr.com.bacompany.bacrm.service;
 
-import tr.com.bacompany.bacrm.data.dto.timesheet.TimesheetDto;
+import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 
 import java.util.List;
 
 public interface TimesheetService {
-    List<TimesheetDto> saveTimesheet(List<TimesheetDto> timesheetDtoList);
+    Timesheet saveTimesheet(Timesheet timesheet);
 
-    List<TimesheetDto> approveTimesheetByUser(List<TimesheetDto> timesheetDtoList);
+    Timesheet approveTimesheetByUser(Timesheet timesheet);
 
-    List<TimesheetDto> approveTimesheetByManager(List<TimesheetDto> timesheetDtoList);
+    Timesheet approveTimesheetByManager(Timesheet timesheet);
 
-    List<TimesheetDto> rejectTimesheetByManager(List<TimesheetDto> timesheetDtoList);
+    Timesheet rejectTimesheetByManager(Timesheet timesheet);
 
-    List<TimesheetDto> getAll();
+    List<Timesheet> getAll();
 
-    TimesheetDto getBy(Long timesheetId) throws ResourceNotFoundException;
+    Timesheet getBy(Long timesheetId) throws ResourceNotFoundException;
 
-    List<TimesheetDto> update(List<TimesheetDto> timesheetDtoList) throws ResourceNotFoundException;
+    Timesheet update(Timesheet timesheet) throws ResourceNotFoundException;
 
-    boolean delete(TimesheetDto timesheetDto) throws ResourceNotFoundException;
+    boolean delete(Timesheet timesheet) throws ResourceNotFoundException;
+
+    Timesheet getByUserIdAndWeekStartDate(Long userId, Long startDate);
 }

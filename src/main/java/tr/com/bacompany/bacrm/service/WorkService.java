@@ -1,19 +1,20 @@
 package tr.com.bacompany.bacrm.service;
 
 import tr.com.bacompany.bacrm.data.dto.WorkDto;
+import tr.com.bacompany.bacrm.data.entity.Work;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 
 import java.util.List;
 
 public interface WorkService {
-    WorkDto add(WorkDto workDto);
+    Work save(Work work);
 
-    List<WorkDto> getAll();
+    List<Work> getAll();
 
-    WorkDto getBy(Long workId) throws ResourceNotFoundException;
+    Work getBy(Long workId) throws ResourceNotFoundException;
 
-    WorkDto update(WorkDto workDto);
+    Work update(Work work);
 
-    boolean delete(WorkDto workDto);
+    boolean delete(Work work);
 
 }

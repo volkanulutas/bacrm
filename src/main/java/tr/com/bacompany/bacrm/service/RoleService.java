@@ -1,19 +1,20 @@
 package tr.com.bacompany.bacrm.service;
 
 import tr.com.bacompany.bacrm.data.dto.user.RoleDto;
+import tr.com.bacompany.bacrm.data.entity.user.Role;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 
 import java.util.List;
 
 public interface RoleService {
-    RoleDto add(RoleDto roleDto);
+    Role add(Role role);
 
-    List<RoleDto> getAll();
+    List<Role> getAll();
 
-    RoleDto getBy(Long roleId) throws ResourceNotFoundException;
+    Role getBy(Long roleId) throws ResourceNotFoundException;
 
-    RoleDto update(RoleDto roleDto);
+    Role update(Role role);
 
-    boolean delete(RoleDto roleDto);
+    boolean delete(Role role);
 
 }

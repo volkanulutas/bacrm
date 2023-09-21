@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import tr.com.bacompany.bacrm.data.entity.user.User;
 
 import javax.persistence.CascadeType;
