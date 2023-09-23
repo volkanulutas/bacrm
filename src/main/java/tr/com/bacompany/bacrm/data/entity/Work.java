@@ -39,6 +39,9 @@ public class Work {
     private String definition;
 
     @Column
+    private long planningDate;
+
+    @Column
     private long startDate;
 
     @Column

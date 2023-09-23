@@ -1,6 +1,7 @@
 package tr.com.bacompany.bacrm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tr.com.bacompany.bacrm.converter.WorkConverter;
 import tr.com.bacompany.bacrm.data.dto.WorkDto;
@@ -25,8 +27,8 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/work")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/work")
+//@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class WorkController {
     private final WorkService workService;
 
@@ -38,7 +40,7 @@ public class WorkController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WorkDto> add(@RequestBody WorkDto workDto) {
         try {
             Work work = WorkConverter.toEntity(workDto);
@@ -56,7 +58,7 @@ public class WorkController {
         }
     }
 
-    @PatchMapping(value = "/")
+    @PatchMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WorkDto> update(@RequestBody WorkDto workDto) {
         try {
             Work work = WorkConverter.toEntity(workDto);
@@ -76,7 +78,7 @@ public class WorkController {
         }
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WorkDto> get(@PathVariable("id") Long id) {
         try {
             Work work = workService.getBy(id);
@@ -88,7 +90,7 @@ public class WorkController {
         }
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<WorkDto>> getAll() {
         try {
             List<Work> works = workService.getAll();

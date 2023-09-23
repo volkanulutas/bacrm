@@ -15,6 +15,7 @@ public class WorkConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setDefinition(source.getDefinition());
+        target.setPlanningDate(source.getPlanningDate());
         target.setStartDate(source.getStartDate());
         target.setEndDate(source.getEndDate());
         target.setWorkloadHour(source.getWorkloadHour());
@@ -26,6 +27,7 @@ public class WorkConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setDefinition(source.getDefinition());
+        target.setPlanningDate(source.getPlanningDate());
         target.setStartDate(source.getStartDate());
         target.setEndDate(source.getEndDate());
         target.setWorkloadHour(source.getWorkloadHour());

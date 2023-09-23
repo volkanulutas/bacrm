@@ -19,6 +19,8 @@ public class WorkDto implements Serializable {
 
     private String definition;
 
+    private long planningDate;
+
     private long startDate;
 
     private long endDate;

@@ -1,6 +1,7 @@
 package tr.com.bacompany.bacrm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,14 +21,14 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/leave")
+@RequestMapping("/api/leave")
 public class LeaveController {
     private final LeaveService leaveService;
 
     @Autowired
     public LeaveController(LeaveService leaveService) {this.leaveService = leaveService;}
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LeaveDto> addLeave(LeaveDto leaveDto) {
         try {
             Leave leave = LeaveConverter.toEntity(leaveDto);
@@ -37,7 +38,7 @@ public class LeaveController {
         }
     }
 
-    @GetMapping(value = "/{userId}")
+    @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LeaveDto> getByUserId(@PathVariable("userId") Long userId) {
         try {
             Leave leave = leaveService.getByUserId(userId);
@@ -49,7 +50,7 @@ public class LeaveController {
         }
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<LeaveDto>> getAll() {
         try {
             List<Leave> leaveList = leaveService.getAll();
@@ -61,7 +62,7 @@ public class LeaveController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
         try {
             leaveService.delete(id);
             return ResponseEntity.ok().build();
