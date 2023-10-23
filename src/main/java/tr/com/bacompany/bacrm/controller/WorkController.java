@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tr.com.bacompany.bacrm.converter.WorkConverter;
 import tr.com.bacompany.bacrm.data.dto.WorkDto;
@@ -25,10 +24,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("/api/work")
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = {"*"})
 //@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class WorkController {
     private final WorkService workService;
@@ -46,6 +44,8 @@ public class WorkController {
         try {
             Work work = WorkConverter.toEntity(workDto);
             Set<UserDto> users = workDto.getUsers();
+
+
             for (UserDto userDto : users) {
                 User user = userService.get(userDto.getId());
                 if (user != null) {

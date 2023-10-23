@@ -48,7 +48,7 @@ public class Work {
     private long endDate;
 
     @Column
-    private double workloadHour;
+    private float workloadHour;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "WORKS_USERS", joinColumns = {@JoinColumn(name = "WORK_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ID")})

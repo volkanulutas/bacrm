@@ -25,7 +25,7 @@ public class WorkDto implements Serializable {
 
     private long endDate;
 
-    private double workloadHour;
+    private Float workloadHour;
 
     private Set<UserDto> users = new HashSet<>();
 }

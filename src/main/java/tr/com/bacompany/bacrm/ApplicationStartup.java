@@ -73,6 +73,7 @@ public class ApplicationStartup {
         // user = userService.save(user);
         // ----
         Work work = new Work();
+        work.setPlanningDate(23L);
         work.setEndDate(2L);
         work.setStartDate(1L);
         work.setName("Render Alınması");
