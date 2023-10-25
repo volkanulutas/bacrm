@@ -4,10 +4,8 @@ import lombok.Data;
 import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveStatus;
 import tr.com.bacompany.bacrm.data.entity.leave.Leave;
 
-import java.io.Serializable;
-
 @Data
-public class LeaveApproveStatusDto implements Serializable {
+public class LeaveApproveStatusDto {
     private Long id;
     //TODO: many to many
     // List<User>

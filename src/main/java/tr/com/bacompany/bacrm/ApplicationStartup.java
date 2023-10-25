@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import tr.com.bacompany.bacrm.data.entity.Customer;
+import tr.com.bacompany.bacrm.data.entity.Proposal;
 import tr.com.bacompany.bacrm.data.entity.Work;
 import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveStatus;
 import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveType;
@@ -15,7 +17,9 @@ import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 import tr.com.bacompany.bacrm.data.entity.timesheet.TimesheetItem;
 import tr.com.bacompany.bacrm.data.entity.user.Role;
 import tr.com.bacompany.bacrm.data.entity.user.User;
+import tr.com.bacompany.bacrm.service.CustomerService;
 import tr.com.bacompany.bacrm.service.LeaveService;
+import tr.com.bacompany.bacrm.service.ProposalService;
 import tr.com.bacompany.bacrm.service.RoleService;
 import tr.com.bacompany.bacrm.service.TimesheetService;
 import tr.com.bacompany.bacrm.service.UserService;
@@ -36,14 +40,20 @@ public class ApplicationStartup {
 
     private final LeaveService leaveService;
 
+    private final CustomerService customerService;
+
+    private final ProposalService proposalService;
+
     @Autowired
     public ApplicationStartup(UserService userService, RoleService roleService, WorkService workService, TimesheetService timesheetService,
-                              LeaveService leaveService) {
+                              LeaveService leaveService, CustomerService customerService, ProposalService proposalService) {
         this.userService = userService;
         this.roleService = roleService;
         this.workService = workService;
         this.timesheetService = timesheetService;
         this.leaveService = leaveService;
+        this.customerService = customerService;
+        this.proposalService = proposalService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -68,7 +78,6 @@ public class ApplicationStartup {
         user.setProfilePicture("profile pic");
         user.setRoles(Set.of(role, role2));
         user = userService.save(user);
-
         //user.setRoles(Set.of(role));
         // user = userService.save(user);
         // ----
@@ -105,7 +114,27 @@ public class ApplicationStartup {
         leaveApproveStatus.setLeave(leave);
         leave.setLeaveApproveStatus(leaveApproveStatus);
         leave = leaveService.add(leave);
+        // ----
+        Customer customer = new Customer();
+        customer.setName("Medical Park");
+        customer.setAddress("Medical Park Keçiören/Ankara");
+        customer.setTelephone("03123212121");
+        customer.setDefinition("Hastane");
+        customer = customerService.add(customer);
+        // ----
+        Proposal proposal = new Proposal();
+        proposal.setDefinition("proposalDef");
+        proposal.setDate(System.currentTimeMillis());
+        proposal.setProposalId("BA-001");
+        proposal.setCustomer(customer);
+        proposal = proposalService.add(proposal);
+        customer.setProposals(Set.of(proposal));
+        customerService.add(customer);
+
+
         log.info("Data initialized.");
+
+
 
     }
 }

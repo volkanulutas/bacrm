@@ -4,12 +4,11 @@ import lombok.Data;
 import tr.com.bacompany.bacrm.data.dto.user.UserDto;
 import tr.com.bacompany.bacrm.data.entity.timesheet.EnumTimesheetStatus;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class TimesheetDto implements Serializable {
+public class TimesheetDto {
     private Long id;
 
     private long weekStartDate;

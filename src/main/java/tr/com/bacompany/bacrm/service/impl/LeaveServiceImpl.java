@@ -42,7 +42,7 @@ public class LeaveServiceImpl implements LeaveService {
     public boolean delete(Long id) throws ResourceNotFoundException {
         try {
             Optional<Leave> optLeave = leaveRepository.findById(id);
-            if (!optLeave.isPresent()) {
+            if (optLeave.isEmpty()) {
                 throw new ResourceNotFoundException("Leave is not found.", "Leave");
             }
             Leave leave = optLeave.get();

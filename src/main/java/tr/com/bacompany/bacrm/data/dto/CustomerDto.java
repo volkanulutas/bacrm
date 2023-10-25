@@ -3,7 +3,6 @@ package tr.com.bacompany.bacrm.data.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tr.com.bacompany.bacrm.data.dto.user.UserDto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,20 +10,19 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class WorkDto {
+public class CustomerDto {
     private Long id;
 
     private String name;
 
     private String definition;
 
-    private long planningDate;
+    private String address;
 
-    private long startDate;
+    private String telephone;
 
-    private long endDate;
+    private Set<ProposalDto> proposals = new HashSet<>();
 
-    private Float workloadHour;
-
-    private Set<UserDto> users = new HashSet<>();
+    // TODO: teklif başlangıc tarihi
+    // TODO: teklif bitiş tarihi
 }

@@ -5,12 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import tr.com.bacompany.bacrm.data.dto.WorkDto;
 
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimesheetItemDto implements Serializable {
+public class TimesheetItemDto {
     private Long id;
 
     private long date;

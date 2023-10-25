@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -57,6 +58,12 @@ public class User {
     @Column
     private String profilePicture;
 
+    @Column
+    private long startDate;
+
+    @Column
+    private String title;
+
     @ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
     @JoinTable(name = "USERS_ROLES", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
     private Set<Role> roles = new HashSet<>();
@@ -72,8 +79,14 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Timesheet> timesheets = new HashSet<>();
 
+
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Leave> leaves = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 
     public void addRole(Role role) {
         this.getRoles().add(role);

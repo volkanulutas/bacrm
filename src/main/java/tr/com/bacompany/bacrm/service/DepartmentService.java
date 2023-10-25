@@ -1,0 +1,18 @@
+package tr.com.bacompany.bacrm.service;
+
+import tr.com.bacompany.bacrm.data.entity.user.Department;
+import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
+
+import java.util.List;
+
+public interface DepartmentService {
+    Department add(Department role);
+
+    List<Department> getAll();
+
+    Department getBy(Long departmentId) throws ResourceNotFoundException;
+
+    Department update(Department department);
+
+    boolean delete(Department role);
+}

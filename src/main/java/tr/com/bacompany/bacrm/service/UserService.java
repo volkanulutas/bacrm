@@ -14,4 +14,6 @@ public interface UserService {
     boolean isPresent(Long id);
 
     User save(User user);
+
+    List<User> getAll();
 }
