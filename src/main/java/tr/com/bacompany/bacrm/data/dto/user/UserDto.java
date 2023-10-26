@@ -3,11 +3,7 @@ package tr.com.bacompany.bacrm.data.dto.user;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tr.com.bacompany.bacrm.data.dto.WorkDto;
-import tr.com.bacompany.bacrm.data.dto.leave.LeaveDto;
-import tr.com.bacompany.bacrm.data.dto.timesheet.TimesheetDto;
-import tr.com.bacompany.bacrm.data.entity.leave.Leave;
-import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
+import tr.com.bacompany.bacrm.data.dto.DepartmentDto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,15 +26,23 @@ public class UserDto {
 
     private boolean enabled;
 
-    private String profilePicture;
+    private byte[] profilePicture;
+
+    private String cellPhone;
+
+    private String internalPhone;
+
+    private DepartmentDto department;
+
+    private String title;
+
+    private long birthdate;
+
+    private long startDate;
 
     private Set<RoleDto> roles = new HashSet<>();
-
     // private Set<WorkDto> works = new HashSet<>();
-
     // private Set<UserDto> managers = new HashSet<>();
-
     // private Set<TimesheetDto> timesheets = new HashSet<>();
-
     // private Set<LeaveDto> leaves = new HashSet<>();
 }

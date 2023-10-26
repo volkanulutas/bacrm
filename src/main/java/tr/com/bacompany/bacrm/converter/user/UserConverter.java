@@ -1,5 +1,6 @@
 package tr.com.bacompany.bacrm.converter.user;
 
+import tr.com.bacompany.bacrm.converter.DepartmentConverter;
 import tr.com.bacompany.bacrm.data.dto.user.RoleDto;
 import tr.com.bacompany.bacrm.data.dto.user.UserDto;
 import tr.com.bacompany.bacrm.data.entity.user.User;
@@ -18,6 +19,12 @@ public class UserConverter {
         target.setSurname(source.getSurname());
         target.setEnabled(source.isEnabled());
         target.setProfilePicture(source.getProfilePicture());
+        target.setTitle(source.getTitle());
+        target.setBirthdate(source.getBirthdate());
+        target.setStartDate(source.getStartDate());
+        target.setCellPhone(source.getCellPhone());
+        target.setInternalPhone(source.getInternalPhone());
+        target.setDepartment(DepartmentConverter.toEntity(source.getDepartment()));
         source.getRoles().forEach(e -> target.addRole(RoleConverter.toEntity(e)));
         return target;
     }
@@ -26,12 +33,18 @@ public class UserConverter {
         UserDto target = new UserDto();
         target.setId(source.getId());
         target.setEmail(source.getEmail());
-        target.setName(source.getName());
         target.setPassword(source.getPassword());
+        target.setName(source.getName());
         target.setMiddleName(source.getMiddleName());
         target.setSurname(source.getSurname());
         target.setEnabled(source.isEnabled());
         target.setProfilePicture(source.getProfilePicture());
+        target.setTitle(source.getTitle());
+        target.setBirthdate(source.getBirthdate());
+        target.setStartDate(source.getStartDate());
+        target.setCellPhone(source.getCellPhone());
+        target.setInternalPhone(source.getInternalPhone());
+        target.setDepartment(DepartmentConverter.toDto(source.getDepartment()));
         Set<RoleDto> roles = source.getRoles().stream().map(RoleConverter::toDto).collect(Collectors.toSet());
         target.setRoles(roles);
         return target;

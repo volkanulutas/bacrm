@@ -10,7 +10,7 @@ public interface DepartmentService {
 
     List<Department> getAll();
 
-    Department getBy(Long departmentId) throws ResourceNotFoundException;
+    Department getById(Long departmentId) throws ResourceNotFoundException;
 
     Department update(Department department);
 

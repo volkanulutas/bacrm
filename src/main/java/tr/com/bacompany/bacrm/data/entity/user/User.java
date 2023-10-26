@@ -56,13 +56,22 @@ public class User {
     private boolean enabled;
 
     @Column
-    private String profilePicture;
+    private byte[] profilePicture;
 
     @Column
     private long startDate;
 
     @Column
     private String title;
+
+    @Column
+    private long birthdate;
+
+    @Column
+    private String cellPhone;
+
+    @Column
+    private String internalPhone;
 
     @ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
     @JoinTable(name = "USERS_ROLES", joinColumns = {@JoinColumn(name = "USER_ID")}, inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
@@ -78,8 +87,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Timesheet> timesheets = new HashSet<>();
-
-
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Leave> leaves = new HashSet<>();
