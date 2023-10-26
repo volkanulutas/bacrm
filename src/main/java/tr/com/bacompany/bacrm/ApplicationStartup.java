@@ -246,6 +246,13 @@ public class ApplicationStartup {
         customer.setTelephone("03123212121");
         customer.setDefinition("Hastane");
         customer = customerService.add(customer);
+
+        Customer customer2 = new Customer();
+        customer2.setName("Medicana Sağlık");
+        customer2.setAddress("Medicana Ankara Hastanesi");
+        customer2.setTelephone("03123212121");
+        customer2.setDefinition("Hastane");
+        customer2 = customerService.add(customer2);
         // ----
         Proposal proposal = new Proposal();
         proposal.setDefinition("proposalDef");
@@ -253,8 +260,19 @@ public class ApplicationStartup {
         proposal.setProposalId("BA-001");
         proposal.setCustomer(customer);
         proposal = proposalService.add(proposal);
+
         customer.setProposals(Set.of(proposal));
         customerService.add(customer);
+
+        Proposal proposal2 = new Proposal();
+        proposal2.setDefinition("teklif 2 ");
+        proposal2.setDate(System.currentTimeMillis());
+        proposal2.setProposalId("BA-002");
+        proposal2.setCustomer(customer2);
+        proposal2 = proposalService.add(proposal2);
+        customer.setProposals(Set.of(proposal2));
+        customerService.add(customer2);
+
         log.info("Data initialized.");
 
     }
