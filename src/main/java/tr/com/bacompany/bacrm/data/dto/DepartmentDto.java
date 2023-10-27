@@ -3,6 +3,7 @@ package tr.com.bacompany.bacrm.data.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tr.com.bacompany.bacrm.data.dto.user.UserDto;
 import tr.com.bacompany.bacrm.data.entity.user.User;
 
 import java.util.HashSet;
@@ -18,5 +19,5 @@ public class DepartmentDto {
 
     private String description;
 
-    private Set<User> users = new HashSet<>();
+    private Set<UserDto> users = new HashSet<>();
 }

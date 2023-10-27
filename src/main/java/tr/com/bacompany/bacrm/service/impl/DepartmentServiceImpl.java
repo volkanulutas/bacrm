@@ -32,7 +32,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department getById(Long departmentId) throws ResourceNotFoundException {
         Optional<Department> optionDepartment = departmentRepository.findById(departmentId);
-        if (optionDepartment.isPresent()) {
+        if (!optionDepartment.isPresent()) {
             throw new ResourceNotFoundException("Department is not found", "Department");
         }
         return optionDepartment.get();
