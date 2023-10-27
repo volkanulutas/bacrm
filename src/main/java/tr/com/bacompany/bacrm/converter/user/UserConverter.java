@@ -24,6 +24,7 @@ public class UserConverter {
         target.setStartDate(source.getStartDate());
         target.setCellPhone(source.getCellPhone());
         target.setInternalPhone(source.getInternalPhone());
+        target.setAddress(source.getAddress());
         target.setDepartment(DepartmentConverter.toEntity(source.getDepartment()));
         source.getRoles().forEach(e -> target.addRole(RoleConverter.toEntity(e)));
         return target;
@@ -44,6 +45,7 @@ public class UserConverter {
         target.setStartDate(source.getStartDate());
         target.setCellPhone(source.getCellPhone());
         target.setInternalPhone(source.getInternalPhone());
+        target.setAddress(source.getAddress());
         target.setDepartment(DepartmentConverter.toDto(source.getDepartment()));
         Set<RoleDto> roles = source.getRoles().stream().map(RoleConverter::toDto).collect(Collectors.toSet());
         target.setRoles(roles);

@@ -40,6 +40,8 @@ public class UserDto {
 
     private long startDate;
 
+    private String address;
+
     private Set<RoleDto> roles = new HashSet<>();
     // private Set<WorkDto> works = new HashSet<>();
     // private Set<UserDto> managers = new HashSet<>();

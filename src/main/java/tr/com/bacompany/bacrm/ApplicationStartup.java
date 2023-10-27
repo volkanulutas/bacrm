@@ -80,7 +80,7 @@ public class ApplicationStartup {
         department4.setName("Teknik Ofis");
         department4.setDescription("Teknik Ofis");
         department4 = departmentService.add(department4);
-
+        // ---
         Role role = new Role();
         role.setName("ADMIN");
         role.setDescription("ADMIN DESC");
@@ -105,6 +105,7 @@ public class ApplicationStartup {
         user7.setStartDate(System.currentTimeMillis());
         user7.setCellPhone("123");
         user7.setInternalPhone("123");
+        user7.setAddress("İstanbul");
         user7.setRoles(Set.of(role, role2));
         user7 = userService.save(user7);
         //
@@ -121,6 +122,7 @@ public class ApplicationStartup {
         user6.setStartDate(System.currentTimeMillis());
         user6.setCellPhone("123");
         user6.setInternalPhone("123");
+        user6.setAddress("İstanbul");
         user6.setRoles(Set.of(role, role2));
         user6 = userService.save(user6);
         //
@@ -137,6 +139,7 @@ public class ApplicationStartup {
         user5.setStartDate(System.currentTimeMillis());
         user5.setCellPhone("123");
         user5.setInternalPhone("123");
+        user5.setAddress("İstanbul");
         user5.setRoles(Set.of(role, role2));
         user5 = userService.save(user5);
         //
@@ -153,6 +156,7 @@ public class ApplicationStartup {
         user4.setStartDate(System.currentTimeMillis());
         user4.setCellPhone("123");
         user4.setInternalPhone("123");
+        user4.setAddress("İstanbul");
         user4.setRoles(Set.of(role, role2));
         user4 = userService.save(user4);
         //
@@ -169,6 +173,7 @@ public class ApplicationStartup {
         user3.setStartDate(System.currentTimeMillis());
         user3.setCellPhone("123");
         user3.setInternalPhone("123");
+        user3.setAddress("İstanbul");
         user3.setRoles(Set.of(role, role2));
         user3 = userService.save(user3);
         //
@@ -185,6 +190,7 @@ public class ApplicationStartup {
         user2.setStartDate(System.currentTimeMillis());
         user2.setCellPhone("123");
         user2.setInternalPhone("123");
+        user2.setAddress("İstanbul");
         user2.setRoles(Set.of(role, role2));
         user2 = userService.save(user2);
         //
@@ -202,6 +208,7 @@ public class ApplicationStartup {
         user.setRoles(Set.of(role, role2));
         user.setCellPhone("123");
         user.setInternalPhone("123");
+        user2.setAddress("Ankara");
         user = userService.save(user);
 
 
