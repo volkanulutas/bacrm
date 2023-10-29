@@ -6,7 +6,7 @@ import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import java.util.List;
 
 public interface DepartmentService {
-    Department add(Department role);
+    Department save(Department role);
 
     List<Department> getAll();
 
@@ -14,5 +14,5 @@ public interface DepartmentService {
 
     Department update(Department department);
 
-    boolean delete(Department role);
+    boolean delete(Long id);
 }

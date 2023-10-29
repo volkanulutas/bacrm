@@ -32,7 +32,7 @@ public class LeaveController {
     public ResponseEntity<LeaveDto> addLeave(LeaveDto leaveDto) {
         try {
             Leave leave = LeaveConverter.toEntity(leaveDto);
-            return ResponseEntity.ok(LeaveConverter.toDto(leaveService.add(leave)));
+            return ResponseEntity.ok(LeaveConverter.toDto(leaveService.save(leave)));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }

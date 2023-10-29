@@ -16,11 +16,11 @@ public interface TimesheetService {
 
     List<Timesheet> getAll();
 
-    Timesheet getBy(Long timesheetId) throws ResourceNotFoundException;
+    Timesheet getById(Long timesheetId) throws ResourceNotFoundException;
 
     Timesheet update(Timesheet timesheet) throws ResourceNotFoundException;
 
-    boolean delete(Timesheet timesheet) throws ResourceNotFoundException;
+    boolean delete(Long timesheetId) throws ResourceNotFoundException;
 
     Timesheet getByUserIdAndWeekStartDate(Long userId, Long startDate);
 }

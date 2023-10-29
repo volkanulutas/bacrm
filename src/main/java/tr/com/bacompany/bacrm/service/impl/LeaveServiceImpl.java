@@ -10,6 +10,7 @@ import tr.com.bacompany.bacrm.service.LeaveService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "leaveService")
@@ -20,13 +21,14 @@ public class LeaveServiceImpl implements LeaveService {
     public LeaveServiceImpl(LeaveRepository leaveRepository) {this.leaveRepository = leaveRepository;}
 
     @Override
-    public Leave add(Leave leave) {
+    public Leave save(Leave leave) {
         return leaveRepository.save(leave);
     }
 
     @Override
     public List<Leave> getAll() {
-        return leaveRepository.findAll();
+        List<Leave> leaveList = leaveRepository.findAll();
+        return leaveList.stream().filter(e -> !e.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
@@ -41,12 +43,9 @@ public class LeaveServiceImpl implements LeaveService {
     @Override
     public boolean delete(Long id) throws ResourceNotFoundException {
         try {
-            Optional<Leave> optLeave = leaveRepository.findById(id);
-            if (optLeave.isEmpty()) {
-                throw new ResourceNotFoundException("Leave is not found.", "Leave");
-            }
-            Leave leave = optLeave.get();
-            leaveRepository.delete(leave);
+            Leave leave = this.getByUserId(id);
+            leave.setDeleted(true);
+            this.save(leave);
         } catch (Exception ex) {
             return false;
         }

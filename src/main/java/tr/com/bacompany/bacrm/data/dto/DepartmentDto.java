@@ -20,4 +20,6 @@ public class DepartmentDto {
     private String description;
 
     private Set<UserDto> users = new HashSet<>();
+
+    private boolean deleted;
 }

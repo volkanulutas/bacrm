@@ -11,6 +11,7 @@ public class CustomerConverter {
         target.setDefinition(source.getDefinition());
         target.setAddress(source.getAddress());
         target.setTelephone(source.getTelephone());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 
@@ -21,6 +22,7 @@ public class CustomerConverter {
         target.setDefinition(source.getDefinition());
         target.setAddress(source.getAddress());
         target.setTelephone(source.getTelephone());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 }

@@ -27,4 +27,6 @@ public class WorkDto {
     private Float workloadHour;
 
     private Set<UserDto> users = new HashSet<>();
+
+    private boolean deleted;
 }

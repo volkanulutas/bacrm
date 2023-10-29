@@ -41,7 +41,9 @@ public class Customer {
     @Column
     private String telephone;
 
-
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private Set<Proposal> proposals = new HashSet<>();
+
+    @Column
+    private boolean deleted;
 }

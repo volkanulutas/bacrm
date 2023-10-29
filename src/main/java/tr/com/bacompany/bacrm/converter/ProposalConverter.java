@@ -11,6 +11,7 @@ public class ProposalConverter {
         target.setDefinition(source.getDefinition());
         target.setCustomer(CustomerConverter.toEntity(source.getCustomer()));
         target.setDate(source.getDate());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 
@@ -21,6 +22,7 @@ public class ProposalConverter {
         target.setDefinition(source.getDefinition());
         target.setCustomer(CustomerConverter.toDto(source.getCustomer()));
         target.setDate(source.getDate());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 }

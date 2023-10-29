@@ -10,6 +10,7 @@ import tr.com.bacompany.bacrm.service.DepartmentService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -20,13 +21,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentServiceImpl(DepartmentRepository departmentRepository) {this.departmentRepository = departmentRepository;}
 
     @Override
-    public Department add(Department department) {
+    public Department save(Department department) {
         return departmentRepository.save(department);
     }
 
     @Override
     public List<Department> getAll() {
-        return departmentRepository.findAll();
+        List<Department> departmentList = departmentRepository.findAll();
+        return departmentList.stream().filter(e-> !e.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
@@ -45,10 +47,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public boolean delete(Department department) {
+    public boolean delete(Long id) {
         try {
-            this.getById(department.getId());
-            departmentRepository.delete(department);
+            Department department = this.getById(id);
+            department.setDeleted(true);
+            this.save(department);
         } catch (Exception ex) {
             return false;
         }

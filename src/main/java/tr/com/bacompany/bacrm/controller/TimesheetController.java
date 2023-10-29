@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +17,7 @@ import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.service.TimesheetService;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
-import java.util.MissingResourceException;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -92,7 +91,7 @@ public class TimesheetController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TimesheetDto> get(@PathVariable("id") Long id) {
         try {
-            Timesheet timesheet = timesheetService.getBy(id);
+            Timesheet timesheet = timesheetService.getById(id);
             return ResponseEntity.ok(TimesheetConverter.toDto(timesheet));
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
@@ -119,6 +118,18 @@ public class TimesheetController {
             List<Timesheet> timesheetList = timesheetService.getAll();
             List<TimesheetDto> timesheetDtoList = timesheetList.stream().map(TimesheetConverter::toDto).collect(Collectors.toList());
             return ResponseEntity.ok(timesheetDtoList);
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        try {
+            timesheetService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.notFound().build();
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }

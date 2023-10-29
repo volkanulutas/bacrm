@@ -23,6 +23,8 @@ public class CustomerDto {
 
     private Set<ProposalDto> proposals = new HashSet<>();
 
+    private boolean deleted;
+
     // TODO: teklif başlangıc tarihi
     // TODO: teklif bitiş tarihi
 }

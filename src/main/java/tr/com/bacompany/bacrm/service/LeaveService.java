@@ -6,7 +6,7 @@ import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import java.util.List;
 
 public interface LeaveService {
-    Leave add(Leave leave);
+    Leave save(Leave leave);
 
     List<Leave> getAll();
 

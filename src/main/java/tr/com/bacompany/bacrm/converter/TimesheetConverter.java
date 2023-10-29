@@ -16,6 +16,7 @@ public class TimesheetConverter {
         target.setWeekStartDate(source.getWeekStartDate());
         target.setStatus(source.getStatus());
         target.setUser(UserConverter.toEntity(source.getUser()));
+        target.setDeleted(source.isDeleted());
         return target;
     }
 
@@ -25,6 +26,7 @@ public class TimesheetConverter {
         target.setWeekStartDate(source.getWeekStartDate());
         target.setStatus(source.getStatus());
         target.setUser(UserConverter.toDto(source.getUser()));
+        target.setDeleted(source.isDeleted());
         return target;
     }
 }

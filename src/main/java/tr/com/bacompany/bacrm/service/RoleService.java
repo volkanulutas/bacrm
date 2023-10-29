@@ -1,13 +1,12 @@
 package tr.com.bacompany.bacrm.service;
 
-import tr.com.bacompany.bacrm.data.dto.user.RoleDto;
 import tr.com.bacompany.bacrm.data.entity.user.Role;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 
 import java.util.List;
 
 public interface RoleService {
-    Role add(Role role);
+    Role save(Role role);
 
     List<Role> getAll();
 

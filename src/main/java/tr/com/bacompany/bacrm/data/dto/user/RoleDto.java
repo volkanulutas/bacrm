@@ -13,4 +13,6 @@ public class RoleDto {
     private String description;
 
     private Long creationDate;
+
+    private boolean deleted;
 }

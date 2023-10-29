@@ -3,6 +3,7 @@ package tr.com.bacompany.bacrm.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tr.com.bacompany.bacrm.data.entity.Customer;
 import tr.com.bacompany.bacrm.data.entity.Proposal;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.repository.ProposalRepository;
@@ -10,6 +11,7 @@ import tr.com.bacompany.bacrm.service.ProposalService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service("proposalService")
@@ -20,13 +22,14 @@ public class ProposalServiceImpl implements ProposalService {
     public ProposalServiceImpl(ProposalRepository proposalRepository) {this.proposalRepository = proposalRepository;}
 
     @Override
-    public Proposal add(Proposal proposal) {
+    public Proposal save(Proposal proposal) {
         return proposalRepository.save(proposal);
     }
 
     @Override
     public List<Proposal> getAll() {
-        return proposalRepository.findAll();
+        List<Proposal> proposalList = proposalRepository.findAll();
+        return proposalList.stream().filter(e -> !e.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
@@ -47,7 +50,8 @@ public class ProposalServiceImpl implements ProposalService {
     public boolean delete(Long id) throws ResourceNotFoundException {
         try {
             Proposal proposal = getById(id);
-            proposalRepository.delete(proposal);
+            proposal.setDeleted(true);
+            this.save(proposal);
         } catch (Exception ex) {
             return false;
         }

@@ -67,30 +67,30 @@ public class ApplicationStartup {
         Department department1 = new Department();
         department1.setName("Yönetim");
         department1.setDescription("Yönetim");
-        department1 = departmentService.add(department1);
+        department1 = departmentService.save(department1);
         Department department2 = new Department();
         department2.setName("Proje Ofisi");
         department2.setDescription("Proje Ofisi");
-        department2 = departmentService.add(department2);
+        department2 = departmentService.save(department2);
         Department department3 = new Department();
         department3.setName("Dizayn Ofisi");
         department3.setDescription("Dizayn Ofisi");
-        department3 = departmentService.add(department3);
+        department3 = departmentService.save(department3);
         Department department4 = new Department();
         department4.setName("Teknik Ofis");
         department4.setDescription("Teknik Ofis");
-        department4 = departmentService.add(department4);
+        department4 = departmentService.save(department4);
         // ---
         Role role = new Role();
         role.setName("ADMIN");
         role.setDescription("ADMIN DESC");
         role.setCreationDate(1L);
-        role = roleService.add(role);
+        role = roleService.save(role);
         Role role2 = new Role();
         role2.setName("USER");
         role2.setDescription("USER DESC");
         role2.setCreationDate(1L);
-        role2 = roleService.add(role2);
+        role2 = roleService.save(role2);
         // ---
         User user7 = new User();
         user7.setEmail("yesim.tarimci@bacompany.com.tr");
@@ -240,45 +240,45 @@ public class ApplicationStartup {
         leave.setStartDate(1);
         leave.setEndDate(2);
         leave.setDefinition("açıklama");
-        leave = leaveService.add(leave);
+        leave = leaveService.save(leave);
         LeaveApproveStatus leaveApproveStatus = new LeaveApproveStatus();
         leaveApproveStatus.setStatus(EnumLeaveStatus.APPROVED);
         leaveApproveStatus.setLeave(leave);
         leave.setLeaveApproveStatus(leaveApproveStatus);
-        leave = leaveService.add(leave);
+        leave = leaveService.save(leave);
         // ----
         Customer customer = new Customer();
         customer.setName("Medical Park");
         customer.setAddress("Medical Park Keçiören/Ankara");
         customer.setTelephone("03123212121");
         customer.setDefinition("Hastane");
-        customer = customerService.add(customer);
+        customer = customerService.save(customer);
 
         Customer customer2 = new Customer();
         customer2.setName("Medicana Sağlık");
         customer2.setAddress("Medicana Ankara Hastanesi");
         customer2.setTelephone("03123212121");
         customer2.setDefinition("Hastane");
-        customer2 = customerService.add(customer2);
+        customer2 = customerService.save(customer2);
         // ----
         Proposal proposal = new Proposal();
         proposal.setDefinition("proposalDef");
         proposal.setDate(System.currentTimeMillis());
         proposal.setProposalId("BA-001");
         proposal.setCustomer(customer);
-        proposal = proposalService.add(proposal);
+        proposal = proposalService.save(proposal);
 
         customer.setProposals(Set.of(proposal));
-        customerService.add(customer);
+        customerService.save(customer);
 
         Proposal proposal2 = new Proposal();
         proposal2.setDefinition("teklif 2 ");
         proposal2.setDate(System.currentTimeMillis());
         proposal2.setProposalId("BA-002");
         proposal2.setCustomer(customer2);
-        proposal2 = proposalService.add(proposal2);
+        proposal2 = proposalService.save(proposal2);
         customer.setProposals(Set.of(proposal2));
-        customerService.add(customer2);
+        customerService.save(customer2);
 
         log.info("Data initialized.");
 

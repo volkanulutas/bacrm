@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "userService")
@@ -26,11 +27,6 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.encoder = encoder;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
     }
 
     @Override
@@ -59,7 +55,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        return userRepository.findAll();
+        List<User> userList = userRepository.findAll();
+        return userList.stream().filter(e-> !e.isDeleted()).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean delete(Long userId) {
+        try {
+            User user = this.get(userId);
+            user.setDeleted(true);
+            this.save(user);
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
 
     private Set<SimpleGrantedAuthority> getAuthority(User user) {

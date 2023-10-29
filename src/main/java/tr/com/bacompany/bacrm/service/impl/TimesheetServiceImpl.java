@@ -11,6 +11,7 @@ import tr.com.bacompany.bacrm.service.TimesheetService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "timesheetService")
@@ -48,11 +49,12 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     @Override
     public List<Timesheet> getAll() {
-        return timesheetRepository.findAll();
+        List<Timesheet> timesheetList = timesheetRepository.findAll();
+        return timesheetList.stream().filter(e -> !e.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
-    public Timesheet getBy(Long timesheetId) throws ResourceNotFoundException {
+    public Timesheet getById(Long timesheetId) throws ResourceNotFoundException {
         Optional<Timesheet> timesheetOpt = timesheetRepository.findById(timesheetId);
         if (!timesheetOpt.isPresent()) {
             throw new ResourceNotFoundException("Timesheet", "Timesheet");
@@ -71,19 +73,16 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     @Override
     public Timesheet update(Timesheet timesheet) throws ResourceNotFoundException {
-        this.getBy(timesheet.getId());
+        this.getById(timesheet.getId());
         return timesheetRepository.save(timesheet);
     }
 
     @Override
-    public boolean delete(Timesheet timesheet) throws ResourceNotFoundException {
+    public boolean delete(Long timesheetId) throws ResourceNotFoundException {
         try {
-            Optional<Timesheet> optTimesheet = timesheetRepository.findById(timesheet.getId());
-            if (!optTimesheet.isPresent()) {
-                throw new ResourceNotFoundException("Timesheet is not found.", "Timesheet");
-            }
-            timesheet = optTimesheet.get();
-            timesheetRepository.delete(timesheet);
+            Timesheet timesheet = this.getById(timesheetId);
+            timesheet.setDeleted(true);
+            this.save(timesheet);
         } catch (Exception ex) {
             return false;
         }

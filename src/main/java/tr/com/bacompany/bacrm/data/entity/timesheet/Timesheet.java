@@ -48,6 +48,9 @@ public class Timesheet {
     @OneToMany(mappedBy = "timesheet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<TimesheetItem> timesheetItems = new HashSet<>();
 
+    @Column
+    private boolean deleted;
+
     public void addTimesheetItem(TimesheetItem timesheetItem) {
         timesheetItem.setTimesheet(this);
         timesheetItems.add(timesheetItem);

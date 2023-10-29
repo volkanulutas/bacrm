@@ -10,6 +10,7 @@ public class RoleConverter {
         target.setName(source.getName());
         target.setDescription(source.getDescription());
         target.setCreationDate(source.getCreationDate());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 
@@ -19,6 +20,7 @@ public class RoleConverter {
         target.setName(source.getName());
         target.setDescription(source.getDescription());
         target.setCreationDate(source.getCreationDate());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 }

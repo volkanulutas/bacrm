@@ -6,7 +6,7 @@ import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import java.util.List;
 
 public interface ProposalService {
-    Proposal add(Proposal proposal);
+    Proposal save(Proposal proposal);
 
     List<Proposal> getAll();
 

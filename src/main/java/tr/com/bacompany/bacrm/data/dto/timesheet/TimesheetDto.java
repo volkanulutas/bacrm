@@ -19,6 +19,8 @@ public class TimesheetDto {
 
     private Set<TimesheetItemDto> timesheetItems = new HashSet<>();
 
+    private boolean deleted;
+
     public void addTimesheetItem(TimesheetItemDto timesheetItemDto) {
         timesheetItemDto.setTimesheet(this);
         timesheetItems.add(timesheetItemDto);

@@ -6,7 +6,7 @@ import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import java.util.List;
 
 public interface CustomerService {
-    Customer add(Customer customer);
+    Customer save(Customer customer);
 
     Customer update(Customer customer);
 
@@ -14,5 +14,5 @@ public interface CustomerService {
 
     Customer getById(Long id) throws ResourceNotFoundException;
 
-    boolean delete(Customer customer) throws ResourceNotFoundException;
+    boolean delete(Long customerId) throws ResourceNotFoundException;
 }

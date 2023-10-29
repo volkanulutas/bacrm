@@ -9,14 +9,19 @@ public class DepartmentConverter {
         target.setId(source.getId());
         target.setName(source.getName());
         target.setDescription(source.getDescription());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 
     public static DepartmentDto toDto(Department source) {
+        if (source == null) {
+            return null;
+        }
         DepartmentDto target = new DepartmentDto();
         target.setId(source.getId());
         target.setName(source.getName());
         target.setDescription(source.getDescription());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 }

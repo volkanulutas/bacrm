@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,8 +45,6 @@ public class WorkController {
         try {
             Work work = WorkConverter.toEntity(workDto);
             Set<UserDto> users = workDto.getUsers();
-
-
             for (UserDto userDto : users) {
                 User user = userService.get(userDto.getId());
                 if (user != null) {
@@ -82,7 +81,7 @@ public class WorkController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WorkDto> get(@PathVariable("id") Long id) {
         try {
-            Work work = workService.getBy(id);
+            Work work = workService.getById(id);
             return ResponseEntity.ok(WorkConverter.toDto(work));
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
@@ -97,6 +96,18 @@ public class WorkController {
             List<Work> works = workService.getAll();
             List<WorkDto> workDtoList = works.stream().map(WorkConverter::toDto).collect(Collectors.toList());
             return ResponseEntity.ok(workDtoList);
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        try {
+            workService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.notFound().build();
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }

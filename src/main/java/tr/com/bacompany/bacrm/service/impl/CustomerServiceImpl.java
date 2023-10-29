@@ -4,15 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tr.com.bacompany.bacrm.data.entity.Customer;
-import tr.com.bacompany.bacrm.data.entity.Work;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.repository.CustomerRepository;
-import tr.com.bacompany.bacrm.repository.WorkRepository;
 import tr.com.bacompany.bacrm.service.CustomerService;
-import tr.com.bacompany.bacrm.service.WorkService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "customerService")
@@ -25,13 +23,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer add(Customer customer) {
+    public Customer save(Customer customer) {
         return customerRepository.save(customer);
     }
 
     @Override
     public List<Customer> getAll() {
-        return customerRepository.findAll();
+        List<Customer> customerList = customerRepository.findAll();
+        return customerList.stream().filter(e-> !e.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
@@ -50,9 +49,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean delete(Customer work) {
+    public boolean delete(Long customerId) {
         try {
-            customerRepository.delete(work);
+            Customer customer = this.getById(customerId);
+            customer.setDeleted(true);
+            this.save(customer);
         } catch (Exception ex) {
             return false;
         }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,7 +48,7 @@ public class CustomerController {
                 proposalSet.add(ProposalConverter.toEntity(proposalDto));
             }
             customer.setProposals(proposalSet);
-            customer = customerService.add(customer);
+            customer = customerService.save(customer);
             return ResponseEntity.ok(CustomerConverter.toDto(customer));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
@@ -58,7 +59,7 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> update(@RequestBody CustomerDto customerDto) {
         try {
             Customer customer = CustomerConverter.toEntity(customerDto);
-            customer = customerService.add(customer);
+            customer = customerService.save(customer);
             return ResponseEntity.ok(CustomerConverter.toDto(customer));
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
@@ -85,6 +86,18 @@ public class CustomerController {
             List<Customer> customerList = customerService.getAll();
             List<CustomerDto> workDtoList = customerList.stream().map(CustomerConverter::toDto).collect(Collectors.toList());
             return ResponseEntity.ok(workDtoList);
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        try {
+            customerService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.notFound().build();
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }

@@ -10,6 +10,7 @@ import tr.com.bacompany.bacrm.service.WorkService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service(value = "workService")
@@ -28,11 +29,12 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public List<Work> getAll() {
-        return workRepository.findAll();
+        List<Work> workList = workRepository.findAll();
+        return workList.stream().filter(e -> !e.isDeleted()).collect(Collectors.toList());
     }
 
     @Override
-    public Work getBy(Long workId) throws ResourceNotFoundException {
+    public Work getById(Long workId) throws ResourceNotFoundException {
         Optional<Work> workOpt = workRepository.findById(workId);
         if (!workOpt.isPresent()) {
             throw new ResourceNotFoundException("Work", "Work");
@@ -42,14 +44,16 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public Work update(Work work) throws ResourceNotFoundException {
-        this.getBy(work.getId());
+        this.getById(work.getId());
         return workRepository.save(work);
     }
 
     @Override
-    public boolean delete(Work work) {
+    public boolean delete(Long workId) {
         try {
-            workRepository.delete(work);
+            Work work = this.getById(workId);
+            work.setDeleted(true);
+            this.save(work);
         } catch (Exception ex) {
             return false;
         }

@@ -27,6 +27,7 @@ public class UserConverter {
         target.setAddress(source.getAddress());
         target.setDepartment(DepartmentConverter.toEntity(source.getDepartment()));
         source.getRoles().forEach(e -> target.addRole(RoleConverter.toEntity(e)));
+        target.setDeleted(source.isDeleted());
         return target;
     }
 
@@ -49,6 +50,7 @@ public class UserConverter {
         target.setDepartment(DepartmentConverter.toDto(source.getDepartment()));
         Set<RoleDto> roles = source.getRoles().stream().map(RoleConverter::toDto).collect(Collectors.toSet());
         target.setRoles(roles);
+        target.setDeleted(source.isDeleted());
         return target;
     }
 }

@@ -19,6 +19,7 @@ public class WorkConverter {
         target.setStartDate(source.getStartDate());
         target.setEndDate(source.getEndDate());
         target.setWorkloadHour(source.getWorkloadHour());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 
@@ -31,6 +32,7 @@ public class WorkConverter {
         target.setStartDate(source.getStartDate());
         target.setEndDate(source.getEndDate());
         target.setWorkloadHour(source.getWorkloadHour());
+        target.setDeleted(source.isDeleted());
         return target;
     }
 }

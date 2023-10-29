@@ -42,6 +42,8 @@ public class UserDto {
 
     private String address;
 
+    private boolean deleted;
+
     private Set<RoleDto> roles = new HashSet<>();
     // private Set<WorkDto> works = new HashSet<>();
     // private Set<UserDto> managers = new HashSet<>();

@@ -1,6 +1,5 @@
 package tr.com.bacompany.bacrm.service;
 
-import tr.com.bacompany.bacrm.data.dto.WorkDto;
 import tr.com.bacompany.bacrm.data.entity.Work;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 
@@ -11,9 +10,9 @@ public interface WorkService {
 
     List<Work> getAll();
 
-    Work getBy(Long workId) throws ResourceNotFoundException;
+    Work getById(Long workId) throws ResourceNotFoundException;
 
     Work update(Work work);
 
-    boolean delete(Work work);
+    boolean delete(Long workId);
 }

@@ -17,4 +17,6 @@ public class ProposalDto {
     private CustomerDto customer;
 
     private long date;
+
+    private boolean deleted;
 }

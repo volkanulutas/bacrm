@@ -38,4 +38,7 @@ public class Department {
 
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
+
+    @Column
+    private boolean deleted;
 }

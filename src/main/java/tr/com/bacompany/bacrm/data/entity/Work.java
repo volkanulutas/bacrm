@@ -54,6 +54,8 @@ public class Work {
     @JoinTable(name = "WORKS_USERS", joinColumns = {@JoinColumn(name = "WORK_ID")}, inverseJoinColumns = {@JoinColumn(name = "USER_ID")})
     private Set<User> users = new HashSet<>();
 
+    private boolean deleted;
+
     public void addUser(User user) {
         //user.addWork(this);
         users.add(user);
