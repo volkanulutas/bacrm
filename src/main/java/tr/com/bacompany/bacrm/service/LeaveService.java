@@ -10,9 +10,11 @@ public interface LeaveService {
 
     List<Leave> getAll();
 
-    Leave getByUserId(Long userId) throws ResourceNotFoundException;
+    List<Leave> getByUserId(Long userId) throws ResourceNotFoundException;
 
     boolean delete(Long id) throws ResourceNotFoundException;
 
     Leave getById(Long id);
+
+    List<Leave> getApproveLeave(Long managerId);
 }

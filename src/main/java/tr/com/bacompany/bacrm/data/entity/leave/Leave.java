@@ -49,8 +49,4 @@ public class Leave {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "leaveApproveStatus_id", referencedColumnName = "id")
-    private LeaveApproveStatus leaveApproveStatus;
 }

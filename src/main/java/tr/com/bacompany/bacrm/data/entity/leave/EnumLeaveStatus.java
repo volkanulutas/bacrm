@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum EnumLeaveStatus {
     WAITING("Beklemede"),
     APPROVED("Onaylandı"),
-    REMOVED_BY_USER("Kullanıcı Tarafından Silindi"), // deleted by user.
     REJECTED("Reddedildi"); // rejected by managers.
 
     private  String label;

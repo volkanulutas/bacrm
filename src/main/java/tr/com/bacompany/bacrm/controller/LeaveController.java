@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tr.com.bacompany.bacrm.converter.LeaveConverter;
 import tr.com.bacompany.bacrm.data.dto.leave.LeaveDto;
@@ -25,7 +24,6 @@ import tr.com.bacompany.bacrm.service.UserService;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = {"*"})
@@ -45,8 +43,6 @@ public class LeaveController {
     public ResponseEntity<LeaveDto> addLeave(@RequestBody LeaveDto leaveDto) {
         try {
             Leave leave = LeaveConverter.toEntity(leaveDto);
-            User user = userService.get(leaveDto.getUserId());
-            leave.setUser(user);
             return ResponseEntity.ok(LeaveConverter.toDto(leaveService.save(leave)));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
@@ -73,19 +69,23 @@ public class LeaveController {
         return ResponseEntity.ok(freeLeaves);
     }
 
-    @GetMapping(value = "/userId", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LeaveDto> getByUserId(@RequestParam("userId") Long userId) {
+    // http://localhost:8080/api/leave/userId/7
+    @GetMapping(value = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<LeaveDto>> getLeavesByUserId(@PathVariable("userId") Long userId) {
         try {
-            Leave leave = leaveService.getByUserId(userId);
-            return ResponseEntity.ok(LeaveConverter.toDto(leave));
+            List<Leave> leaveList = leaveService.getByUserId(userId);
+            List<LeaveDto> leaveDtoList = leaveList.stream().map(e -> LeaveConverter.toDto(e)).collect(Collectors.toList());
+            return ResponseEntity.ok(leaveDtoList);
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.notFound().build();
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
     }
-    @GetMapping(value = "/id", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LeaveDto> getById(@RequestParam("id") Long id) {
+
+    // http://localhost:8080/api/leave/id/7
+    @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LeaveDto> getById(@PathVariable("id") Long id) {
         try {
             Leave leave = leaveService.getById(id);
             return ResponseEntity.ok(LeaveConverter.toDto(leave));
@@ -96,13 +96,11 @@ public class LeaveController {
         }
     }
 
-
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<LeaveDto>> getAll() {
         try {
             List<Leave> leaveList = leaveService.getAll();
             List<LeaveDto> leaveDtoList = leaveList.stream().map(LeaveConverter::toDto).collect(Collectors.toList());
-            System.err.println("requested: "  + leaveDtoList.size());
             return ResponseEntity.ok(leaveDtoList);
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
@@ -120,4 +118,18 @@ public class LeaveController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @GetMapping(value = "/approve-leave/{managerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<LeaveDto>> getApproveLeaves(@PathVariable("managerId") Long managerId) throws ResourceNotFoundException {
+        try {
+            List<Leave> leaveList = leaveService.getApproveLeave(managerId);
+            List<LeaveDto> leaveDtoList = leaveList.stream().map(LeaveConverter::toDto).collect(Collectors.toList());
+            return ResponseEntity.ok(leaveDtoList);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
 }

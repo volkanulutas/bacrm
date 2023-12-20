@@ -2,6 +2,7 @@ package tr.com.bacompany.bacrm.converter;
 
 import tr.com.bacompany.bacrm.converter.user.UserConverter;
 import tr.com.bacompany.bacrm.data.dto.leave.LeaveDto;
+import tr.com.bacompany.bacrm.data.dto.user.UserDto;
 import tr.com.bacompany.bacrm.data.entity.leave.Leave;
 
 public class LeaveConverter {
@@ -14,8 +15,7 @@ public class LeaveConverter {
         target.setEndDate(source.getEndDate());
         target.setDefinition(source.getDefinition());
         target.setDeleted(source.isDeleted());
-        // NOTE: user should set after call
-        target.setLeaveApproveStatus(LeaveApproveStatusConverter.toEntity(source.getLeaveApproveStatus()));
+        target.setUser(UserConverter.toEntity(source.getUser()));
         return target;
     }
 
@@ -28,8 +28,7 @@ public class LeaveConverter {
         target.setEndDate(source.getEndDate());
         target.setDefinition(source.getDefinition());
         target.setDeleted(source.isDeleted());
-        target.setUserId(source.getUser().getId());
-        target.setLeaveApproveStatus(LeaveApproveStatusConverter.toDto(source.getLeaveApproveStatus()));
+        target.setUser(UserConverter.toDto(source.getUser()));
         return target;
     }
 }

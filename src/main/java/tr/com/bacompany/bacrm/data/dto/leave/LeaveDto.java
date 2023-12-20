@@ -22,9 +22,7 @@ public class LeaveDto {
 
     private boolean deleted;
 
-    private Long userId;
+    private UserDto user;
 
-    // TODO:
-    @JsonIgnore
     private LeaveApproveStatusDto leaveApproveStatus;
 }

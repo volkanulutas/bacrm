@@ -3,11 +3,14 @@ package tr.com.bacompany.bacrm.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveStatus;
 import tr.com.bacompany.bacrm.data.entity.leave.Leave;
+import tr.com.bacompany.bacrm.data.entity.user.User;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.repository.LeaveRepository;
 import tr.com.bacompany.bacrm.service.LeaveService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,18 +35,18 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     @Override
-    public Leave getByUserId(Long userId) throws ResourceNotFoundException {
-        Optional<Leave> optLeave = leaveRepository.findByUserId(userId);
-        if (!optLeave.isPresent()) {
+    public List<Leave> getByUserId(Long userId) throws ResourceNotFoundException {
+        List<Leave> leaveList = leaveRepository.findByUserId(userId);
+        if (leaveList.isEmpty()) {
             throw new ResourceNotFoundException("Leave is not found.", "Leave");
         }
-        return optLeave.get();
+        return leaveList;
     }
 
     @Override
     public boolean delete(Long id) throws ResourceNotFoundException {
         try {
-            Leave leave = this.getByUserId(id);
+            Leave leave = this.getById(id);
             leave.setDeleted(true);
             this.save(leave);
         } catch (Exception ex) {
@@ -59,5 +62,18 @@ public class LeaveServiceImpl implements LeaveService {
             throw new ResourceNotFoundException("Leave is not found.", "Leave");
         }
         return optLeave.get();
+    }
+
+    @Override
+    public List<Leave> getApproveLeave(Long managerId) {
+        List<Leave> leaveList = leaveRepository.findByStatus(EnumLeaveStatus.WAITING);
+        List<Leave> result = new ArrayList<>();
+        for (Leave leave : leaveList) {
+            List<User> collect = leave.getUser().getManagers().stream().filter(e -> e.getId().equals(managerId)).collect(Collectors.toList());
+            if (!collect.isEmpty()) {
+                result.add(leave);
+            }
+        }
+        return result;
     }
 }

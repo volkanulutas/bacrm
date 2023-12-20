@@ -11,7 +11,6 @@ import tr.com.bacompany.bacrm.data.entity.Work;
 import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveStatus;
 import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveType;
 import tr.com.bacompany.bacrm.data.entity.leave.Leave;
-import tr.com.bacompany.bacrm.data.entity.leave.LeaveApproveStatus;
 import tr.com.bacompany.bacrm.data.entity.timesheet.EnumTimesheetStatus;
 import tr.com.bacompany.bacrm.data.entity.timesheet.Timesheet;
 import tr.com.bacompany.bacrm.data.entity.timesheet.TimesheetItem;
@@ -208,10 +207,9 @@ public class ApplicationStartup {
         user.setRoles(Set.of(role, role2));
         user.setCellPhone("123");
         user.setInternalPhone("123");
-        user2.setAddress("Ankara");
+        user.setAddress("Ankara");
+        user.setManagers(Set.of(user2));
         user = userService.save(user);
-
-
         // ----
         Work work = new Work();
         work.setPlanningDate(System.currentTimeMillis());
@@ -238,13 +236,9 @@ public class ApplicationStartup {
         leave.setStatus(EnumLeaveStatus.WAITING);
         leave.setUser(user);
         leave.setStartDate(System.currentTimeMillis());
-        leave.setEndDate(System.currentTimeMillis()+1000);
+        leave.setEndDate(System.currentTimeMillis() + 1000);
         leave.setDefinition("açıklama");
         leave = leaveService.save(leave);
-        LeaveApproveStatus leaveApproveStatus = new LeaveApproveStatus();
-        leaveApproveStatus.setStatus(EnumLeaveStatus.APPROVED);
-        leaveApproveStatus.setLeave(leave);
-        leave.setLeaveApproveStatus(leaveApproveStatus);
         leave = leaveService.save(leave);
         // ----
         Customer customer = new Customer();
@@ -253,7 +247,6 @@ public class ApplicationStartup {
         customer.setTelephone("03123212121");
         customer.setDefinition("Hastane");
         customer = customerService.save(customer);
-
         Customer customer2 = new Customer();
         customer2.setName("Medicana Sağlık");
         customer2.setAddress("Medicana Ankara Hastanesi");
@@ -267,10 +260,8 @@ public class ApplicationStartup {
         proposal.setProposalId("BA-001");
         proposal.setCustomer(customer);
         proposal = proposalService.save(proposal);
-
         customer.setProposals(Set.of(proposal));
         customerService.save(customer);
-
         Proposal proposal2 = new Proposal();
         proposal2.setDefinition("teklif 2 ");
         proposal2.setDate(System.currentTimeMillis());
@@ -279,7 +270,6 @@ public class ApplicationStartup {
         proposal2 = proposalService.save(proposal2);
         customer.setProposals(Set.of(proposal2));
         customerService.save(customer2);
-
         log.info("Data initialized.");
 
     }
