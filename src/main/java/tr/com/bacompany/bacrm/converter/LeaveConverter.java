@@ -14,7 +14,7 @@ public class LeaveConverter {
         target.setEndDate(source.getEndDate());
         target.setDefinition(source.getDefinition());
         target.setDeleted(source.isDeleted());
-        target.setUser(UserConverter.toEntity(source.getUser()));
+        // NOTE: user should set after call
         target.setLeaveApproveStatus(LeaveApproveStatusConverter.toEntity(source.getLeaveApproveStatus()));
         return target;
     }
@@ -28,7 +28,7 @@ public class LeaveConverter {
         target.setEndDate(source.getEndDate());
         target.setDefinition(source.getDefinition());
         target.setDeleted(source.isDeleted());
-        target.setUser(UserConverter.toDto(source.getUser()));
+        target.setUserId(source.getUser().getId());
         target.setLeaveApproveStatus(LeaveApproveStatusConverter.toDto(source.getLeaveApproveStatus()));
         return target;
     }

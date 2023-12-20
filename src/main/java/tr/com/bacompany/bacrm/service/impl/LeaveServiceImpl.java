@@ -51,4 +51,13 @@ public class LeaveServiceImpl implements LeaveService {
         }
         return true;
     }
+
+    @Override
+    public Leave getById(Long id) {
+        Optional<Leave> optLeave = leaveRepository.findById(id);
+        if (!optLeave.isPresent()) {
+            throw new ResourceNotFoundException("Leave is not found.", "Leave");
+        }
+        return optLeave.get();
+    }
 }

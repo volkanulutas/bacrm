@@ -13,4 +13,6 @@ public interface LeaveService {
     Leave getByUserId(Long userId) throws ResourceNotFoundException;
 
     boolean delete(Long id) throws ResourceNotFoundException;
+
+    Leave getById(Long id);
 }

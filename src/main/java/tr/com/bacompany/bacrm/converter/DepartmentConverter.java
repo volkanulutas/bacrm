@@ -5,6 +5,9 @@ import tr.com.bacompany.bacrm.data.entity.user.Department;
 
 public class DepartmentConverter {
     public static Department toEntity(DepartmentDto source) {
+        if(source == null){
+            return null;
+        }
         Department target = new Department();
         target.setId(source.getId());
         target.setName(source.getName());

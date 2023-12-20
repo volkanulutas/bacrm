@@ -180,7 +180,7 @@ public class ApplicationStartup {
         User user2 = new User();
         user2.setEmail("suayip.altay@bacompany.com.tr");
         user2.setName("Şuayip");
-        user2.setSurname("Alty");
+        user2.setSurname("Altay");
         user2.setEnabled(true);
         user2.setPassword("123456");
         user2.setProfilePicture(null);
@@ -237,8 +237,8 @@ public class ApplicationStartup {
         leave.setType(EnumLeaveType.FREE_LEAVE);
         leave.setStatus(EnumLeaveStatus.WAITING);
         leave.setUser(user);
-        leave.setStartDate(1);
-        leave.setEndDate(2);
+        leave.setStartDate(System.currentTimeMillis());
+        leave.setEndDate(System.currentTimeMillis()+1000);
         leave.setDefinition("açıklama");
         leave = leaveService.save(leave);
         LeaveApproveStatus leaveApproveStatus = new LeaveApproveStatus();
