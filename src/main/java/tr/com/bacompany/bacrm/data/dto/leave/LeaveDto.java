@@ -24,5 +24,5 @@ public class LeaveDto {
 
     private UserDto user;
 
-    private LeaveApproveStatusDto leaveApproveStatus;
+   private String rejectMessage;
 }

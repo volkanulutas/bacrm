@@ -16,6 +16,7 @@ public class LeaveConverter {
         target.setDefinition(source.getDefinition());
         target.setDeleted(source.isDeleted());
         target.setUser(UserConverter.toEntity(source.getUser()));
+        target.setRejectMessage(source.getRejectMessage());
         return target;
     }
 
@@ -29,6 +30,7 @@ public class LeaveConverter {
         target.setDefinition(source.getDefinition());
         target.setDeleted(source.isDeleted());
         target.setUser(UserConverter.toDto(source.getUser()));
+        target.setRejectMessage(source.getRejectMessage());
         return target;
     }
 }

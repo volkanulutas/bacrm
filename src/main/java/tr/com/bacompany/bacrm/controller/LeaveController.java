@@ -107,7 +107,7 @@ public class LeaveController {
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
         try {
             leaveService.delete(id);
