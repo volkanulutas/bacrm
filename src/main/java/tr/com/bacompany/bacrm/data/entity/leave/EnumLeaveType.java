@@ -1,7 +1,6 @@
 package tr.com.bacompany.bacrm.data.entity.leave;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
@@ -35,19 +34,30 @@ public enum EnumLeaveType {
         this.isFree = isFree;
     }
 
+    /*
+    @JsonValue
+    public List<String> getLabel() {
+        List<String> list = new ArrayList<>();
+        list.add(name());
+        list.add(label);
+        return list;
+    }
+
+     */
+
     @JsonValue
     public String getLabel() {
+        ;
         return label;
     }
 
     @JsonCreator
     public static EnumLeaveType forValues(String name) {
         for (EnumLeaveType leaveType : EnumLeaveType.values()) {
-           if(leaveType.name().equals(name)){
-               return leaveType;
-           }
+            if (leaveType.name().equals(name)) {
+                return leaveType;
+            }
         }
-
         return null;
     }
 }

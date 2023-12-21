@@ -16,10 +16,8 @@ import tr.com.bacompany.bacrm.data.dto.leave.LeaveDto;
 import tr.com.bacompany.bacrm.data.dto.leave.LeaveTypeDto;
 import tr.com.bacompany.bacrm.data.entity.leave.EnumLeaveType;
 import tr.com.bacompany.bacrm.data.entity.leave.Leave;
-import tr.com.bacompany.bacrm.data.entity.user.User;
 import tr.com.bacompany.bacrm.data.exception.ResourceNotFoundException;
 import tr.com.bacompany.bacrm.service.LeaveService;
-import tr.com.bacompany.bacrm.service.UserService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,12 +29,9 @@ import java.util.stream.Collectors;
 public class LeaveController {
     private final LeaveService leaveService;
 
-    private final UserService userService;
-
     @Autowired
-    public LeaveController(LeaveService leaveService, UserService userService) {
+    public LeaveController(LeaveService leaveService) {
         this.leaveService = leaveService;
-        this.userService = userService;
     }
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
